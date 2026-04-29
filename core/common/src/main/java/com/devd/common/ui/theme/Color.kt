@@ -1,4 +1,4 @@
-package com.devd.martwagon.ui.theme
+package com.devd.common.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

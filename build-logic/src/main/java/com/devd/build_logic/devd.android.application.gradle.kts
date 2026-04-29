@@ -11,3 +11,7 @@ plugins {
 configApplicationPlugin()
 configCompose()
 configHilt()
+
+dependencies {
+    implementation(project(":core:common"))
+}
