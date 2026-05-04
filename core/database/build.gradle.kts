@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.devd.domain"
+    namespace = "com.devd.database"
 }
 
 configRoomDB()

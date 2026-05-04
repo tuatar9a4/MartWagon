@@ -18,6 +18,8 @@ composeViewModelVersion = "2.10.0"
 
 timberVersion = "5.0.1"
 
+roomDBVersion ="2.8.4"
+
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "toolCommon" }
@@ -46,6 +48,11 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltVersion" }
 hilt-compose_nav = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "composeNavVersion" }
 hilt-compose_viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "composeViewModelVersion" }
+#RoomDB
+androidx-room = {group="androidx.room",name ="room-runtime",version.ref="roomDBVersion"}
+androidx-room-compiler = {group="androidx.room",name ="room-compiler",version.ref="roomDBVersion"}
+androidx-room-ktx = {group="androidx.room",name ="room-ktx",version.ref="roomDBVersion"}
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
