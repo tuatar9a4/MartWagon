@@ -30,4 +30,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(projects.feature.home)
+    implementation(projects.feature.report)
+    implementation(projects.feature.setting)
+    implementation(projects.feature.tag)
 }

@@ -7,10 +7,10 @@ import org.gradle.kotlin.dsl.configure
 fun Project.configApplicationPlugin() {
 
     extensions.configure<ApplicationExtension>(){
-        compileSdk = 36
+        compileSdk = 37
 
         defaultConfig {
-            targetSdk = 36
+            targetSdk = 37
             minSdk = 29
         }
 

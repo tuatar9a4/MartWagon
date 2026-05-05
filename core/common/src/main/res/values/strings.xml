@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_record">Record</string>
+    <string name="tab_report">Report</string>
+    <string name="tab_tag">Tag</string>
+    <string name="tab_setting">Setting</string>
+</resources>

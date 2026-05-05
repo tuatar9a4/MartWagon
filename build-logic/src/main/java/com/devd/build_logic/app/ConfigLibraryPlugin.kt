@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.configure
 fun Project.configLibraryPlugin() {
 
     extensions.configure<LibraryExtension>(){
-        compileSdk = 36
+        compileSdk = 37
 
         defaultConfig {
             minSdk = 29
