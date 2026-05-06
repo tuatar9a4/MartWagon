@@ -21,3 +21,15 @@ fun PriceRecordEntity.toDomain(): PriceRecord {
         discountRate = calculatedDiscount
     )
 }
+
+fun PriceRecord.toEntity(): PriceRecordEntity {
+
+    return PriceRecordEntity(
+        productName = this.productName,
+        martName = this.martName,
+        currentPrice = this.currentPrice,
+        originalPrice = this.originalPrice,
+        memo = this.memo,
+        recordTimestamp = this.recordDate
+    )
+}

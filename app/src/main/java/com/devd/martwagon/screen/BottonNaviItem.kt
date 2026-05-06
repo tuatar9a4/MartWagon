@@ -17,11 +17,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation3.runtime.NavKey
-import com.devd.common.R
-import com.devd.common.ui.theme.ColorActive
-import com.devd.common.ui.theme.ColorDisable
-import com.devd.common.ui.theme.ColorSemiBlue
+import com.devd.common.theme.ColorDisable
+import com.devd.common.theme.ColorPrimaryBlue
+import com.devd.common.theme.ColorSemiBlue
 
 @Composable
 fun RowScope.BottonNaviItem(
@@ -34,9 +32,9 @@ fun RowScope.BottonNaviItem(
         selected = isSelect,
         onClick = onClick,
         colors = NavigationBarItemDefaults.colors(
-            selectedTextColor = ColorActive,
+            selectedTextColor = ColorPrimaryBlue,
             unselectedTextColor = ColorDisable,
-            selectedIconColor = ColorActive,
+            selectedIconColor = ColorPrimaryBlue,
             unselectedIconColor = ColorDisable,
             indicatorColor = Color.Transparent
         ),
@@ -48,14 +46,14 @@ fun RowScope.BottonNaviItem(
                     .padding(6.dp),
                 painter = painterResource(icon),
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(if (isSelect) ColorActive else ColorDisable)
+                colorFilter = ColorFilter.tint(if (isSelect) ColorPrimaryBlue else ColorDisable)
             )
         },
         label = {
             Text(
                 text = stringResource(label),
                 style = MaterialTheme.typography.labelMedium.copy(
-                    color = if (isSelect) ColorActive else ColorDisable
+                    color = if (isSelect) ColorPrimaryBlue else ColorDisable
                 )
             )
         },

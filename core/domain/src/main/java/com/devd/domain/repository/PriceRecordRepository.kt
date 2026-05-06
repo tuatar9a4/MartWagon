@@ -1,0 +1,12 @@
+package com.devd.domain.repository
+
+import com.devd.domain.model.database.PriceRecord
+import kotlinx.coroutines.flow.Flow
+
+interface PriceRecordRepository {
+    suspend fun savePriceRecord(priceRecord: PriceRecord): PriceRecord?
+
+    fun fetchPriceRecordFlow() : Flow<List<PriceRecord>>
+
+   suspend fun tempDeleteAllItem()
+}

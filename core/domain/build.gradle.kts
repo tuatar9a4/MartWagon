@@ -1,3 +1,4 @@
+import com.devd.build_logic.app.configDataStore
 import com.devd.build_logic.app.configRoomDB
 
 plugins {
@@ -9,6 +10,7 @@ android {
 }
 
 configRoomDB()
+configDataStore()
 
 dependencies {
     implementation(libs.androidx.core.ktx)

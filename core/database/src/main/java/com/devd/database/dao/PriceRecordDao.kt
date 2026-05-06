@@ -5,8 +5,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.devd.database.model.MartStat
 import com.devd.database.entitiy.PriceRecordEntity
+import com.devd.database.model.MartStat
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -64,4 +64,7 @@ interface PriceRecordDao {
     // 6. 마트별/태그별 탭 (폴더 뷰): 각 마트당 기록된 상품 개수를 카운트해서 내림차순 정렬
     @Query("SELECT mart_name as martName, COUNT(*) as count FROM price_records GROUP BY mart_name ORDER BY count DESC")
     fun getMartStats(): Flow<List<MartStat>>
+
+    @Query("DELETE FROM price_records")
+    suspend fun deleteAllRecords()
 }

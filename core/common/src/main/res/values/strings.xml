@@ -4,4 +4,16 @@
     <string name="tab_report">Report</string>
     <string name="tab_tag">Tag</string>
     <string name="tab_setting">Setting</string>
+    <string name="my_recorder">"내 장바구니 기록장"</string>
+    <string name="item_text">"품목"</string>
+    <string name="total_record_item">"총 기록된 상품"</string>
+    <string name="update_text">"최근 업데이트"</string>
+    <string name="today_text">"오늘"</string>
+    <string name="day_ago_text">"일 전"</string>
+    <string name="cancel">"취소"</string>
+    <string name="confirm">"확인"</string>
+    <string name="need_product_name">"제품 이름을 입력해야 합니다."</string>
+    <string name="need_product_price">"제품 가격을 입력해야 합니다."</string>
+    <string name="fail_insert_product">"제품 추가 실패"</string>
+    <string name="success_insert_product">"제품 추가 성공"</string>
 </resources>

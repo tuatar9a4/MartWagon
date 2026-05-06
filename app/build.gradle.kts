@@ -35,4 +35,9 @@ dependencies {
     implementation(projects.feature.report)
     implementation(projects.feature.setting)
     implementation(projects.feature.tag)
+    implementation(projects.core.domain)
+    implementation(projects.core.data)
+    implementation(projects.core.common)
+    implementation(projects.core.datastroe)
+    implementation(projects.core.database)
 }
