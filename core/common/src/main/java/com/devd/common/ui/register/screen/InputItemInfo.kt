@@ -15,6 +15,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -39,7 +40,7 @@ fun InputItemInfo(
     updatePurchasePrice: (Int) -> Unit
 ) {
     RoundedCard {
-        LabelText(labelIcon = R.drawable.icon_tag, label = "상품명")
+        LabelText(labelIcon = R.drawable.icon_tag, label = stringResource(R.string.product_name_title))
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -52,7 +53,7 @@ fun InputItemInfo(
             onValueChange = { updateProductName(it) },
             placeholder = {
                 Text(
-                    text = "예: 삼다수 2L",
+                    text = stringResource(R.string.product_name_placeholder),
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = ColorTertiaryText
                     )
@@ -63,12 +64,12 @@ fun InputItemInfo(
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             PriceInputField(
                 isActive = false,
-                label = "정상가 (선택)",
+                label = stringResource(R.string.option_original_price),
                 value = if (regularPrice == -1) "" else regularPrice.toString()
             ) { updateRegularPrice(it.ifEmpty { "-1" }.toInt()) }
             PriceInputField(
                 isActive = true,
-                label = "구매가",
+                label = stringResource(R.string.option_current_price),
                 value = if (purchasePrice == -1) "" else purchasePrice.toString()
             ) { updatePurchasePrice(it.ifEmpty { "-1" }.toInt()) }
         }
@@ -102,11 +103,11 @@ fun RowScope.PriceInputField(
             ),
             suffix = {
                 Text(
-                    "원",
+                    text = stringResource(R.string.currency_unit),
                     style = MaterialTheme.typography.bodyMedium,
                     color = if (isActive) ColorPrimaryBlue else ColorDisable
                 )
-            }, // 우측에 '원' 고정
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .background(

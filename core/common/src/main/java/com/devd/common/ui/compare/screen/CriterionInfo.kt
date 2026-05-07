@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -71,7 +72,7 @@ fun CriterionInfoNullPreview() {
 fun CriterionInfo(
     priceRecord: PriceRecord
 ) {
-    RoundedCard{
+    RoundedCard {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -79,7 +80,7 @@ fun CriterionInfo(
                 modifier = Modifier
                     .background(ColorDivider, RoundedCornerShape(5.dp))
                     .padding(horizontal = 5.dp, vertical = 1.dp),
-                text = "기존 기록",
+                text = stringResource(R.string.original_record),
                 style = MaterialTheme.typography.labelMedium.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,
@@ -124,7 +125,7 @@ fun CriterionInfo(
         Column() {
             priceRecord.originalPriceStr?.let {
                 Text(
-                    text = "${priceRecord.originalPriceStr} 원",
+                    text = "${priceRecord.originalPriceStr} ${stringResource(R.string.currency_unit)}",
                     style = MaterialTheme.typography.labelMedium.copy(
                         color = ColorTertiaryText
 
@@ -145,7 +146,7 @@ fun CriterionInfo(
                     Spacer(Modifier.width(5.dp))
                 }
                 Text(
-                    text = "${priceRecord.currentPriceStr} 원",
+                    text = "${priceRecord.currentPriceStr} ${stringResource(R.string.currency_unit)}",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
                         color = ColorMainText

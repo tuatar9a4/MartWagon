@@ -87,20 +87,23 @@ fun PriceCompareResult(
         ) {
             Column() {
                 Text(
-                    text = "이 가격으로 기록 갱신하기",
+                    text = stringResource(R.string.update_new_price_title),
                     style = MaterialTheme.typography.titleMedium.copy(
                         color = ColorMainText
                     )
                 )
                 Text(
-                    text = "(물가 변화 확인에 도움이 됩니다.)",
+                    text = stringResource(R.string.update_new_price_message),
                     style = MaterialTheme.typography.labelMedium.copy(
                         color = ColorSecondaryText
                     )
                 )
             }
             Column() {
-                LabelText(labelIcon = R.drawable.icon_message, label = "메모(선택)")
+                LabelText(
+                    labelIcon = R.drawable.icon_message,
+                    label = stringResource(R.string.option_memo)
+                )
                 Spacer(Modifier.height(5.dp))
                 OutlinedTextField(
                     modifier = Modifier
@@ -114,7 +117,7 @@ fun PriceCompareResult(
                     onValueChange = { memo = it },
                     placeholder = {
                         Text(
-                            text = "마감세일, 1+1 등",
+                            text = stringResource(R.string.option_memo_placeholder),
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 color = ColorTertiaryText
                             )
@@ -129,7 +132,7 @@ fun PriceCompareResult(
                 onClick = { onAddNewPrice(memo) }
             ) {
                 Text(
-                    text = "새로운 가격 추가",
+                    text = stringResource(R.string.update_new_price_btn),
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                         color = ColorWhite

@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,7 +69,7 @@ fun PriceRegisterScreenPreview() {
         {}, {}, {
             println("Check=>Price => ${it}")
             uiState = uiState.copy(purchasePrice = it)
-        }, {}, {},{}, {}, {}
+        }, {}, {}, {}, {}, {}
     )
 }
 
@@ -137,7 +138,6 @@ fun PriceRegisterScreen(
                     shape = RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)
                 )
         ) {
-            // 1. 헤더 영역 (TopBar)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -153,14 +153,14 @@ fun PriceRegisterScreen(
                     colorFilter = ColorFilter.tint(ColorMainText)
                 )
                 Text(
-                    text = "새 가격 기록",
+                    text = stringResource(R.string.add_new_price_title),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
                     )
                 )
                 Text(
                     modifier = Modifier.clickable(onClick = savePriceRecord),
-                    text = "저장",
+                    text = stringResource(R.string.save),
                     style = MaterialTheme.typography.labelLarge.copy(
                         color = ColorPrimaryBlue
                     ),

@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,7 +71,7 @@ fun RecordList(
                 )
                 Spacer(Modifier.width(5.dp))
                 Text(
-                    text = "최근 등록한 가격",
+                    text = stringResource(R.string.recent_record_price),
                     style = MaterialTheme.typography.titleMedium.copy(ColorMainText)
                 )
             }
@@ -79,7 +80,7 @@ fun RecordList(
                     .background(ColorDivider, RoundedCornerShape(40.dp))
                     .clickable(onClick = onClickFilter)
                     .padding(horizontal = 10.dp, vertical = 3.dp),
-                text = "최신순",
+                text = stringResource(R.string.recent),
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontSize = 11.sp,
                     color = ColorTertiaryText

@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,7 +48,7 @@ import com.devd.common.util.RoundedCard
 @Composable
 fun InputStoreInfo(
     selectStoreIndex: Int,
-    storeList : List<String>,
+    storeList: List<String>,
     memo: String,
     onStoreSelected: (Int) -> Unit,
     onMemoUpdate: (String) -> Unit,
@@ -57,7 +58,7 @@ fun InputStoreInfo(
     var isShowAddMartPopup by remember { mutableStateOf(false) }
 
     RoundedCard {
-        LabelText(labelIcon = R.drawable.icon_shop, label = "구매처")
+        LabelText(labelIcon = R.drawable.icon_shop, label = stringResource(R.string.purchase_store))
 
         FlowRow( // 가로로 배치하다 넘치면 아래로 내림
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -88,7 +89,7 @@ fun InputStoreInfo(
                 onClick = { isShowAddMartPopup = true },
                 label = {
                     Text(
-                        text = "+ 직접 입력",
+                        text = stringResource(R.string.add_self),
                         style = MaterialTheme.typography.labelMedium.copy(
                             color = ColorTertiaryText
                         )
@@ -99,7 +100,7 @@ fun InputStoreInfo(
             )
         }
 
-        LabelText(labelIcon = R.drawable.icon_message, label = "메모 (선택)")
+        LabelText(labelIcon = R.drawable.icon_message, label = stringResource(R.string.option_memo))
 
         OutlinedTextField(
             modifier = Modifier
@@ -113,7 +114,7 @@ fun InputStoreInfo(
             onValueChange = { onMemoUpdate(it) },
             placeholder = {
                 Text(
-                    text = "마감세일, 1+1 등",
+                    text = stringResource(R.string.option_memo_placeholder),
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = ColorTertiaryText
                     )
@@ -151,7 +152,7 @@ fun SimpleInputDialog(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "추가하실 마트 명을 입력해 주세요.",
+                text = stringResource(R.string.add_purchase_store_question),
                 style = MaterialTheme.typography.titleMedium.copy(
                     color = ColorMainText
                 )
@@ -170,7 +171,7 @@ fun SimpleInputDialog(
                 onValueChange = { memo = it },
                 placeholder = {
                     Text(
-                        text = "구매하신 마트를 적어주세요",
+                        text = stringResource(R.string.add_purchase_store_placeholder),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             color = ColorTertiaryText
                         )
@@ -187,7 +188,7 @@ fun SimpleInputDialog(
                         .clickable(onClick = onDismiss)
                         .weight(1f)
                         .padding(vertical = 10.dp),
-                    text = "취소",
+                    text = stringResource(R.string.cancel),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelLarge.copy(
                         color = ColorTertiaryText
@@ -202,7 +203,7 @@ fun SimpleInputDialog(
                         .clickable(onClick = { onConfirm(memo) })
                         .weight(1f)
                         .padding(vertical = 10.dp),
-                    text = "추가",
+                    text = stringResource(R.string.add_btn),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelLarge.copy(
                         color = ColorPrimaryBlue

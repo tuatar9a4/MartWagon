@@ -21,11 +21,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.devd.common.R
 import com.devd.common.theme.ColorPrimaryBlue
 import com.devd.common.theme.ColorSemiBlue
 import com.devd.common.theme.ColorWhite
@@ -53,7 +55,7 @@ fun InputCurPrice(
         containerColor = ColorPrimaryBlue
     ) {
         Text(
-            text = "지금 마트에서 본 가격은 얼마인가요?",
+            text = stringResource(R.string.current_price_question),
             style = MaterialTheme.typography.labelLarge.copy(
                 fontWeight = FontWeight.Bold,
                 color = ColorSemiBlue
@@ -97,7 +99,7 @@ fun InputCurPrice(
                             // 입력값이 비어있을 때 Placeholder 표시
                             if (curPrice.isEmpty()) {
                                 Text(
-                                    text = "새로운 가격 입력",
+                                    text = stringResource(R.string.new_price),
                                     style = MaterialTheme.typography.bodyMedium.copy(
                                         fontWeight = FontWeight.Bold,
                                         color = ColorSemiBlue.copy(alpha = 0.5f)
@@ -112,7 +114,7 @@ fun InputCurPrice(
                 }
             )
             Text(
-                text = "원",
+                text = stringResource(R.string.currency_unit),
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.Bold,
                     color = ColorSemiBlue
