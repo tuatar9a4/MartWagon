@@ -3,6 +3,7 @@ package com.devd.common.ui.record
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -52,12 +53,16 @@ fun RecordPriceItemPreview() {
             memo = "expetendis",
             recordDate = 2969,
             discountRate = 20
-        )
+        ),
+        onCompareClick = {}
     )
 }
 
 @Composable
-fun RecordPriceItem(item: PriceRecord) {
+fun RecordPriceItem(
+    item: PriceRecord,
+    onCompareClick: (PriceRecord) -> Unit,
+) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
@@ -184,6 +189,7 @@ fun RecordPriceItem(item: PriceRecord) {
                 Row(
                     modifier = Modifier
                         .background(ColorSemiBlue, RoundedCornerShape(15.dp))
+                        .clickable(onClick = { onCompareClick(item) })
                         .padding(horizontal = 15.dp, vertical = 10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {

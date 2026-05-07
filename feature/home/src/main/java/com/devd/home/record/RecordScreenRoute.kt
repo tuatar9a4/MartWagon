@@ -28,13 +28,16 @@ import com.devd.common.R
 import com.devd.common.theme.ColorBackground
 import com.devd.common.theme.ColorPrimaryBlue
 import com.devd.common.theme.ColorWhite
+import com.devd.common.ui.compare.PriceComparePopup
 import com.devd.common.ui.register.PriceRegisterPopup
+import com.devd.domain.model.database.PriceRecord
 import com.devd.home.record.screen.RecordList
 import com.devd.home.record.screen.RecordSummary
 import com.devd.home.record.screen.TopBanner
 
 sealed interface RecordAction {
     data object OnSearchClick : RecordAction
+    data class OnCompareClick(val selectItem: PriceRecord) : RecordAction
 }
 
 @Composable
@@ -45,6 +48,8 @@ fun RecordScreenRoute(
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var isShowRegisterPopup by remember { mutableStateOf(false) }
+    var isShowComparePopup by remember { mutableStateOf<PriceRecord?>(null) }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -56,6 +61,10 @@ fun RecordScreenRoute(
                 when (it) {
                     RecordAction.OnSearchClick -> {
                         viewModel.tempDeleteAllItem()
+                    }
+
+                    is RecordAction.OnCompareClick -> {
+                        isShowComparePopup = it.selectItem
                     }
                 }
             }
@@ -76,9 +85,18 @@ fun RecordScreenRoute(
             )
         }
     }
-    if(isShowRegisterPopup){
-        PriceRegisterPopup (
+    // 등록 팝업
+    if (isShowRegisterPopup) {
+        PriceRegisterPopup(
             onDismiss = { isShowRegisterPopup = false },
+        )
+    }
+
+    // 비교 팝업
+    if (isShowComparePopup != null) {
+        PriceComparePopup(
+            criterionPrice = isShowComparePopup!!,
+            onDismiss = { isShowComparePopup = null }
         )
     }
 }
@@ -106,7 +124,10 @@ fun RecordScreen(
         RecordList(
             modifier = Modifier.weight(1f),
             priceRecords = uiState.recordItems,
-            onClickFilter = {}
+            onClickFilter = {},
+            onCompareClick = { selectItem ->
+                homeActionListener(RecordAction.OnCompareClick(selectItem))
+            }
         )
     }
 

@@ -7,7 +7,6 @@ fun PriceRecordEntity.toDomain(): PriceRecord {
     val calculatedDiscount = originalPrice?.let {
         if (it > currentPrice) ((it - currentPrice).toDouble() / it * 100).toInt()
         else null
-
     }
 
     return PriceRecord(

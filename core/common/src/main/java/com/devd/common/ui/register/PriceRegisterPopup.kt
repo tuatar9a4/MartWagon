@@ -68,7 +68,7 @@ fun PriceRegisterScreenPreview() {
         {}, {}, {
             println("Check=>Price => ${it}")
             uiState = uiState.copy(purchasePrice = it)
-        }, {}, {}, {},{}
+        }, {}, {},{}, {}, {}
     )
 }
 
@@ -88,7 +88,7 @@ fun PriceRegisterPopup(
     Dialog(
         onDismissRequest = {
             Timber.d("CheckDismiss=> onDismissRequest shouldBackPage ${viewModel.shouldBackPage}")
-            if(!viewModel.shouldBackPage) onDismiss()
+            if (!viewModel.shouldBackPage) onDismiss()
             viewModel.initData()
         },
         properties = DialogProperties(usePlatformDefaultWidth = false) // 전체 화면 설정
@@ -101,6 +101,10 @@ fun PriceRegisterPopup(
             updateSelectStore = viewModel::updateSelectStore,
             addMartItem = viewModel::addMartItem,
             updateMemo = viewModel::updateMemo,
+            backPressCall = {
+                viewModel.initData()
+                onDismiss()
+            },
             savePriceRecord = viewModel::validateInputInfo
         )
     }
@@ -118,7 +122,8 @@ fun PriceRegisterScreen(
     updateSelectStore: (Int) -> Unit,
     addMartItem: (String) -> Unit,
     updateMemo: (String) -> Unit,
-    savePriceRecord : () -> Unit
+    backPressCall: () -> Unit,
+    savePriceRecord: () -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -142,6 +147,7 @@ fun PriceRegisterScreen(
 
             ) {
                 Image(
+                    modifier = Modifier.clickable(onClick = backPressCall),
                     painter = painterResource(R.drawable.icon_close),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(ColorMainText)

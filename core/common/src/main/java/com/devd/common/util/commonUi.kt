@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,12 +29,16 @@ import com.devd.common.theme.ColorWhite
 
 
 @Composable
-fun RoundedCard(content: @Composable ColumnScope.() -> Unit) {
+fun RoundedCard(
+    containerColor: Color = ColorWhite,
+    borderColor : Color = ColorSemiBlue,
+    content: @Composable ColumnScope.() -> Unit
+) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        color = ColorWhite,
-        border = BorderStroke(1.dp, ColorSemiBlue), // 아주 연한 테두리
+        color = containerColor,
+        border = BorderStroke(1.dp, borderColor),
         shadowElevation = 1.dp
     ) {
         Column(

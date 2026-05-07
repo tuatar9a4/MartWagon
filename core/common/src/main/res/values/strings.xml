@@ -16,4 +16,8 @@
     <string name="need_product_price">"제품 가격을 입력해야 합니다."</string>
     <string name="fail_insert_product">"제품 추가 실패"</string>
     <string name="success_insert_product">"제품 추가 성공"</string>
+    <string name="very_cheap_price_message">"완전 싸다! 이건 사야합니다! 🎉"</string>
+    <string name="cheap_price_message">"오, 가격이 이전보다 저렴합니다."</string>
+    <string name="same_price_message">"예전이랑 가격이 동일합니다. 😊"</string>
+    <string name="expensive_price_message">"비싸네..예전이 더 저렴했습니다... 😥"</string>
 </resources>

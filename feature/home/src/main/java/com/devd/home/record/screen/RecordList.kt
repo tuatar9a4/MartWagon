@@ -36,7 +36,8 @@ import com.devd.domain.model.database.PriceRecord
 @Composable
 fun RecordListPreview() {
     RecordList(
-        onClickFilter = {}
+        onClickFilter = {},
+        onCompareClick = {}
     )
 }
 
@@ -44,7 +45,8 @@ fun RecordListPreview() {
 fun RecordList(
     modifier: Modifier = Modifier,
     priceRecords: List<PriceRecord> = emptyList(),
-    onClickFilter: () -> Unit
+    onClickFilter: () -> Unit,
+    onCompareClick: (PriceRecord) -> Unit
 ) {
 
     Column(
@@ -89,7 +91,10 @@ fun RecordList(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(priceRecords) { item ->
-                RecordPriceItem(item)
+                RecordPriceItem(
+                    item = item,
+                    onCompareClick = onCompareClick
+                )
             }
         }
     }
