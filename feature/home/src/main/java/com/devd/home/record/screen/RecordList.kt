@@ -38,7 +38,8 @@ import com.devd.domain.model.database.PriceRecord
 fun RecordListPreview() {
     RecordList(
         onClickFilter = {},
-        onCompareClick = {}
+        onCompareClick = {},
+        onDeleteClick = {}
     )
 }
 
@@ -47,7 +48,8 @@ fun RecordList(
     modifier: Modifier = Modifier,
     priceRecords: List<PriceRecord> = emptyList(),
     onClickFilter: () -> Unit,
-    onCompareClick: (PriceRecord) -> Unit
+    onCompareClick: (PriceRecord) -> Unit,
+    onDeleteClick :(Long) -> Unit
 ) {
 
     Column(
@@ -94,7 +96,8 @@ fun RecordList(
             items(priceRecords) { item ->
                 RecordPriceItem(
                     item = item,
-                    onCompareClick = onCompareClick
+                    onCompareClick = onCompareClick,
+                    onDeleteItem = onDeleteClick
                 )
             }
         }

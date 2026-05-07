@@ -7,6 +7,6 @@ interface PriceRecordRepository {
     suspend fun savePriceRecord(priceRecord: PriceRecord): PriceRecord?
 
     fun fetchPriceRecordFlow() : Flow<List<PriceRecord>>
-
+    suspend fun deleteItemWithId(id: Long)
    suspend fun tempDeleteAllItem()
 }
