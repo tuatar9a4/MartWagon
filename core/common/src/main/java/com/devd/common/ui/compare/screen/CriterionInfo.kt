@@ -3,6 +3,7 @@ package com.devd.common.ui.compare.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,8 +32,10 @@ import com.devd.common.theme.ColorPrimaryBlue
 import com.devd.common.theme.ColorRed
 import com.devd.common.theme.ColorSecondaryText
 import com.devd.common.theme.ColorTertiaryText
+import com.devd.common.util.LabelText
 import com.devd.common.util.RoundedCard
 import com.devd.domain.model.database.PriceRecord
+import com.devd.domain.model.database.PriceUnit
 
 @Preview
 @Composable
@@ -46,7 +49,9 @@ fun CriterionInfoPreview() {
             originalPrice = 2576,
             memo = "equidem",
             recordDate = 2893,
-            discountRate = 50
+            discountRate = 50,
+            quantity = 100,
+            unit = 1
         )
     )
 }
@@ -63,7 +68,9 @@ fun CriterionInfoNullPreview() {
             originalPrice = null,
             memo = null,
             recordDate = 2893,
-            discountRate = 50
+            discountRate = 50,
+            quantity = 400,
+            unit = 0
         )
     )
 }
@@ -96,55 +103,59 @@ fun CriterionInfo(
             )
         }
         Column() {
+            LabelText(
+                labelIcon = R.drawable.icon_shop,
+                label = priceRecord.martName,
+            )
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Bottom
             ) {
-                Image(
-                    modifier = Modifier.size(16.dp),
-                    painter = painterResource(R.drawable.icon_shop),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(ColorSecondaryText)
-                )
-                Spacer(Modifier.width(5.dp))
                 Text(
-                    text = priceRecord.martName,
-                    style = MaterialTheme.typography.labelSmall.copy(
-                        fontWeight = FontWeight.Normal,
-                        color = ColorSecondaryText
+                    text = priceRecord.productName,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Medium,
+                        color = ColorMainText
                     )
                 )
+                priceRecord.quantity?.let {
+                    Spacer(Modifier.width(3.dp))
+                    Text(
+                        text = "(${priceRecord.quantity}${stringResource(PriceUnit.entries[priceRecord.unit].display)})",
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            fontWeight = FontWeight.Medium,
+                            color = ColorMainText
+                        )
+                    )
+                }
             }
-            Text(
-                text = priceRecord.productName,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Medium,
-                    color = ColorMainText
-                )
-            )
         }
         Column() {
-            priceRecord.originalPriceStr?.let {
-                Text(
-                    text = "${priceRecord.originalPriceStr} ${stringResource(R.string.currency_unit)}",
-                    style = MaterialTheme.typography.labelMedium.copy(
-                        color = ColorTertiaryText
-
-                    )
-                )
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 priceRecord.discountRate?.let {
                     Text(
                         text = "${priceRecord.discountRate}%",
-                        style = MaterialTheme.typography.titleLarge.copy(
+                        style = MaterialTheme.typography.labelMedium.copy(
                             fontWeight = FontWeight.Bold,
                             color = ColorRed
                         )
                     )
                     Spacer(Modifier.width(5.dp))
                 }
+                priceRecord.originalPriceStr?.let {
+                    Text(
+                        text = "${priceRecord.originalPriceStr} ${stringResource(R.string.currency_unit)}",
+                        style = MaterialTheme.typography.labelMedium.copy(
+                            color = ColorTertiaryText
+
+                        )
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
                     text = "${priceRecord.currentPriceStr} ${stringResource(R.string.currency_unit)}",
                     style = MaterialTheme.typography.titleLarge.copy(
@@ -152,9 +163,19 @@ fun CriterionInfo(
                         color = ColorMainText
                     )
                 )
+                priceRecord.unitPerPrice?.let {
+                    Text(
+                        text = "${priceRecord.unitPerStr}${stringResource(R.string.per_text)} " +
+                                "${priceRecord.unitPerPrice} ${stringResource(R.string.currency_unit)}",
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = ColorPrimaryBlue
+                        )
+                    )
+                }
             }
         }
-        priceRecord.memo?.let {
+        priceRecord.memo?.ifEmpty { null }?.let {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

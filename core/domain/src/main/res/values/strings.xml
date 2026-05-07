@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gram_unit">"g"</string>
+    <string name="milliliter_unit">"ml"</string>
+    <string name="piece_unit">"개"</string>
+</resources>

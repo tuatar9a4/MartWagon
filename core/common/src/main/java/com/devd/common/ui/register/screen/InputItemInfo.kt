@@ -9,14 +9,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.devd.common.R
@@ -40,7 +43,10 @@ fun InputItemInfo(
     updatePurchasePrice: (Int) -> Unit
 ) {
     RoundedCard {
-        LabelText(labelIcon = R.drawable.icon_tag, label = stringResource(R.string.product_name_title))
+        LabelText(
+            labelIcon = R.drawable.icon_tag,
+            label = stringResource(R.string.product_name_title)
+        )
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -50,6 +56,9 @@ fun InputItemInfo(
             ),
             shape = RoundedCornerShape(10.dp),
             value = productName,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            ),
             onValueChange = { updateProductName(it) },
             placeholder = {
                 Text(
@@ -83,6 +92,7 @@ fun RowScope.PriceInputField(
     value: String,
     onValueChange: (String) -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
     Column(modifier = Modifier.weight(1f)) {
         Text(
             label,
@@ -115,7 +125,13 @@ fun RowScope.PriceInputField(
                     RoundedCornerShape(10.dp)
                 ),
             shape = RoundedCornerShape(10.dp),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            keyboardActions = KeyboardActions(
+                onDone = { focusManager.clearFocus() }
+            ),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = if (isActive) ImeAction.Done else ImeAction.Next
+            )
         )
     }
 }

@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.FilterChip
@@ -29,8 +31,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -54,7 +58,7 @@ fun InputStoreInfo(
     onMemoUpdate: (String) -> Unit,
     onAddMartList: (String) -> Unit
 ) {
-
+    val focusManager = LocalFocusManager.current
     var isShowAddMartPopup by remember { mutableStateOf(false) }
 
     RoundedCard {
@@ -112,6 +116,10 @@ fun InputStoreInfo(
             shape = RoundedCornerShape(10.dp),
             value = memo,
             onValueChange = { onMemoUpdate(it) },
+            keyboardActions = KeyboardActions(
+                onDone = { focusManager.clearFocus() }
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             placeholder = {
                 Text(
                     text = stringResource(R.string.option_memo_placeholder),
@@ -128,7 +136,8 @@ fun InputStoreInfo(
                 onAddMartList(it)
                 isShowAddMartPopup = false
             },
-            onDismiss = { isShowAddMartPopup = false }
+            onDismiss = { isShowAddMartPopup = false },
+            onClearFocus = { focusManager.clearFocus() }
         )
     }
 }
@@ -137,10 +146,10 @@ fun InputStoreInfo(
 @Composable
 fun SimpleInputDialog(
     onConfirm: (String) -> Unit = {},
-    onDismiss: () -> Unit = {}
+    onDismiss: () -> Unit = {},
+    onClearFocus : () -> Unit = {}
 ) {
     var memo by remember { mutableStateOf("") }
-
     Dialog(
         onDismissRequest = onDismiss
     ) {
@@ -167,7 +176,12 @@ fun SimpleInputDialog(
                     color = ColorMainText
                 ),
                 shape = RoundedCornerShape(10.dp),
+                maxLines = 1,
                 value = memo,
+                keyboardActions = KeyboardActions(
+                    onDone = { onClearFocus() }
+                ),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 onValueChange = { memo = it },
                 placeholder = {
                     Text(
@@ -187,7 +201,7 @@ fun SimpleInputDialog(
                     modifier = Modifier
                         .clickable(onClick = onDismiss)
                         .weight(1f)
-                        .padding(vertical = 10.dp),
+                        .padding(vertical = 15.dp),
                     text = stringResource(R.string.cancel),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelLarge.copy(
@@ -202,7 +216,7 @@ fun SimpleInputDialog(
                     modifier = Modifier
                         .clickable(onClick = { onConfirm(memo) })
                         .weight(1f)
-                        .padding(vertical = 10.dp),
+                        .padding(vertical = 15.dp),
                     text = stringResource(R.string.add_btn),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelLarge.copy(

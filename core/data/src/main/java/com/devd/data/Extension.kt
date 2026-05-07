@@ -17,6 +17,8 @@ fun PriceRecordEntity.toDomain(): PriceRecord {
         originalPrice = this.originalPrice,
         memo = this.memo,
         recordDate = this.recordTimestamp,
+        quantity = this.quantity,
+        unit = this.unit,
         discountRate = calculatedDiscount
     )
 }
@@ -29,6 +31,8 @@ fun PriceRecord.toEntity(): PriceRecordEntity {
         currentPrice = this.currentPrice,
         originalPrice = this.originalPrice,
         memo = this.memo,
-        recordTimestamp = this.recordDate
+        recordTimestamp = this.recordDate,
+        quantity = this.quantity,
+        unit = this.unit
     )
 }

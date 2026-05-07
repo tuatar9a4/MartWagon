@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
@@ -52,7 +53,9 @@ fun RecordPriceItemPreview() {
             originalPrice = 3582,
             memo = "expetendis",
             recordDate = 2969,
-            discountRate = 20
+            discountRate = 20,
+            quantity = 6000,
+            unit = 1
         ),
         onCompareClick = {}
     )
@@ -147,26 +150,29 @@ fun RecordPriceItem(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    item.discountRate?.let {
-                        Text(
-                            text = "${item.discountRate}%",
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                color = ColorRed,
-                                fontWeight = FontWeight.Bold
-                            )
-                        )
-                        Spacer(Modifier.width(10.dp))
-                    }
                     Column() {
                         item.originalPriceStr?.let {
-                            Text(
-                                text = "$it 원",
-                                style = MaterialTheme.typography.labelSmall.copy(
-                                    color = ColorTertiaryText,
-                                    lineHeight = 11.sp,
-                                ),
-                                textDecoration = TextDecoration.LineThrough
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "${item.discountRate}%",
+                                    style = MaterialTheme.typography.labelSmall.copy(
+                                        color = ColorRed,
+                                        lineHeight = 11.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                )
+                                Spacer(Modifier.width(5.dp))
+                                Text(
+                                    text = "$it 원",
+                                    style = MaterialTheme.typography.labelSmall.copy(
+                                        color = ColorTertiaryText,
+                                        lineHeight = 11.sp,
+                                    ),
+                                    textDecoration = TextDecoration.LineThrough
+                                )
+                            }
                         }
                         Text(
                             text = "${item.currentPriceStr} 원",
@@ -183,6 +189,16 @@ fun RecordPriceItem(
                                 )
                             )
                         )
+                        item.unitPerPrice?.let {
+                            Text(
+                                text = "${item.unitPerStr}${stringResource(R.string.per_text)}" +
+                                        " ${item.unitPerPrice}${stringResource(R.string.currency_unit)}",
+                                style = MaterialTheme.typography.labelSmall.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    color = ColorPrimaryBlue
+                                )
+                            )
+                        }
 
                     }
                 }

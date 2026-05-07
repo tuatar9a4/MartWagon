@@ -48,6 +48,7 @@ import com.devd.common.theme.ColorMainText
 import com.devd.common.theme.ColorPrimaryBlue
 import com.devd.common.ui.dialog.ShowMessageDialog
 import com.devd.common.ui.register.screen.InputItemInfo
+import com.devd.common.ui.register.screen.InputQuantityInfo
 import com.devd.common.ui.register.screen.InputStoreInfo
 import timber.log.Timber
 
@@ -69,7 +70,7 @@ fun PriceRegisterScreenPreview() {
         {}, {}, {
             println("Check=>Price => ${it}")
             uiState = uiState.copy(purchasePrice = it)
-        }, {}, {}, {}, {}, {}
+        }, {}, {}, {}, {}, {}, {}, {}
     )
 }
 
@@ -100,6 +101,8 @@ fun PriceRegisterPopup(
             updateRegularPrice = viewModel::updateRegularPrice,
             updatePurchasePrice = viewModel::updatePurchasePrice,
             updateSelectStore = viewModel::updateSelectStore,
+            updateQuantity = viewModel::updateQuantity,
+            updateSelectQuantity = viewModel::updateSelectQuantity,
             addMartItem = viewModel::addMartItem,
             updateMemo = viewModel::updateMemo,
             backPressCall = {
@@ -121,6 +124,8 @@ fun PriceRegisterScreen(
     updateRegularPrice: (Int) -> Unit,
     updatePurchasePrice: (Int) -> Unit,
     updateSelectStore: (Int) -> Unit,
+    updateQuantity: (Int) -> Unit,
+    updateSelectQuantity: (Int) -> Unit,
     addMartItem: (String) -> Unit,
     updateMemo: (String) -> Unit,
     backPressCall: () -> Unit,
@@ -175,8 +180,6 @@ fun PriceRegisterScreen(
             ) {
                 // 2. 영수증/바코드 스캔 영역 (Dotted Border)
 //                ScanSection()
-
-                // 3. 상품 정보 입력 카드 (아까 배운 테두리+그림자 적용)
                 InputItemInfo(
                     productName = uiState.productName,
                     regularPrice = uiState.regularPrice,
@@ -185,7 +188,14 @@ fun PriceRegisterScreen(
                     updateRegularPrice = updateRegularPrice,
                     updatePurchasePrice = updatePurchasePrice
                 )
-                // 4. 구매처 섹션
+                InputQuantityInfo(
+                    price = uiState.purchasePrice,
+                    quantity = uiState.quantity,
+                    selectedIndex = uiState.selectQuantityIndex,
+                    onQuantityUpdate = updateQuantity,
+                    onQuantityUnitUpdate = updateSelectQuantity
+                )
+
                 InputStoreInfo(
                     selectStoreIndex = uiState.selectStoreIndex,
                     storeList = uiState.storeList,

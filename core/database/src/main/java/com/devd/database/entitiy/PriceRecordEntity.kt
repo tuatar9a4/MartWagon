@@ -29,5 +29,12 @@ data class PriceRecordEntity(
 
     // 날짜는 String보다 Long(Unix Timestamp)으로 저장해야 나중에 정렬/비교 쿼리 시 압도적으로 유리합니다.
     @ColumnInfo(name = "record_timestamp")
-    val recordTimestamp: Long
+    val recordTimestamp: Long,
+
+    @ColumnInfo(name = "quantity")
+    val quantity: Int? = null, // 용량 (예: 420.0, 500.0)
+
+    @ColumnInfo(name = "unit")
+    val unit: Int = 0, // 단위 (예: "g", "ml", "개")
+
 )

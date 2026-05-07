@@ -31,7 +31,7 @@ import com.devd.common.theme.ColorWhite
 @Composable
 fun RoundedCard(
     containerColor: Color = ColorWhite,
-    borderColor : Color = ColorSemiBlue,
+    borderColor: Color = ColorSemiBlue,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Surface(
@@ -50,18 +50,23 @@ fun RoundedCard(
 }
 
 @Composable
-fun LabelText(labelIcon: Int, label: String) {
+fun LabelText(
+    labelIcon: Int,
+    label: String,
+    iconColor: Color = ColorSecondaryText,
+    labelColor: Color = ColorSecondaryText
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Image(
             painter = painterResource(labelIcon),
             contentDescription = null,
             modifier = Modifier.size(16.dp),
-            colorFilter = ColorFilter.tint(ColorSecondaryText)
+            colorFilter = ColorFilter.tint(iconColor)
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = label,
-            style = MaterialTheme.typography.labelLarge.copy(ColorSecondaryText),
+            style = MaterialTheme.typography.labelLarge.copy(labelColor),
             fontWeight = FontWeight.Bold
         )
     }
