@@ -22,7 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -45,13 +45,13 @@ import java.text.DecimalFormat
 @Preview
 @Composable
 fun InputCurPricePreview() {
-    var curPrice by remember { mutableIntStateOf(-1) }
+    var curPrice by remember { mutableLongStateOf(-1) }
 
     InputCurPrice(
         curPrice = curPrice,
         quantity = 0,
         priceUnit = PriceUnit.Milliliter,
-        onValueChange = { curPrice = it.toInt() },
+        onValueChange = { curPrice = it },
         onQuantityChange = {},
         onActionDone = {}
     )
@@ -59,7 +59,7 @@ fun InputCurPricePreview() {
 
 @Composable
 fun InputCurPrice(
-    curPrice: Int,
+    curPrice: Long,
     quantity: Long,
     priceUnit: PriceUnit?,
     onValueChange: (Long) -> Unit,
@@ -67,7 +67,7 @@ fun InputCurPrice(
     onActionDone: () -> Unit
 ) {
     val pricePerUnit =
-        if (quantity == 0L || quantity == -1L || curPrice == 0 || curPrice == -1 || priceUnit == null) null
+        if (quantity == 0L || quantity == -1L || curPrice == 0L || curPrice == -1L || priceUnit == null) null
         else {
             val formatter = DecimalFormat("#,###")
             formatter.format((curPrice.toFloat() * priceUnit.step / quantity))

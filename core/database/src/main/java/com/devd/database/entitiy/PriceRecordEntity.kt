@@ -17,11 +17,11 @@ data class PriceRecordEntity(
     val martName: String,
 
     @ColumnInfo(name = "current_price")
-    val currentPrice: Int,
+    val currentPrice: Long,
 
     // 정상가는 입력 안 할 수도 있으니 Nullable 처리
     @ColumnInfo(name = "original_price")
-    val originalPrice: Int? = null,
+    val originalPrice: Long? = null,
 
     // 메모도 선택 사항이므로 Nullable
     @ColumnInfo(name = "memo")

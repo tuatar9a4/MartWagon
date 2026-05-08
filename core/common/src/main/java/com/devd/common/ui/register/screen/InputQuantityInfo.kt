@@ -71,7 +71,7 @@ fun InputQuantityInfoPreview() {
 
 @Composable
 fun InputQuantityInfo(
-    price: Int,
+    price: Long,
     quantity: Long,
     selectedIndex: Int,
     onQuantityUpdate: (newQuantity: Long) -> Unit,
@@ -187,7 +187,7 @@ fun InputQuantityInfo(
                 Spacer(Modifier.height(5.dp))
                 Text(
                     maxLines = 1,
-                    text = if (quantity == -1L || quantity == 0L || price == -1) "-"
+                    text = if (quantity == -1L || quantity == 0L || price == -1L) "-"
                     else "${price * selectUnit.step / quantity} ${stringResource(R.string.currency_unit)}",
                     autoSize = TextAutoSize.StepBased(minFontSize = 7.sp, maxFontSize = 22.sp),
                     style = MaterialTheme.typography.titleMedium.copy(

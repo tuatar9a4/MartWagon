@@ -22,7 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -114,14 +114,14 @@ fun PriceCompareScreen(
     onAddNewPrice: (newPrice: PriceRecord) -> Unit,
     onCloseClick: () -> Unit
 ) {
-    var newPrice by remember { mutableIntStateOf(-1) }
-    var newQuantity: Long by remember { mutableStateOf(-1) }
+    var newPrice by remember { mutableLongStateOf(-1) }
+    var newQuantity by remember { mutableLongStateOf(-1) }
     var compareType: CompareType? by remember { mutableStateOf(null) }
 
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(newPrice, newQuantity) {
-        if (newPrice == -1 || (newQuantity == -1L && priceRecord.quantity != null)) {
+        if (newPrice == -1L || (newQuantity == -1L && priceRecord.quantity != null)) {
             compareType = null
             return@LaunchedEffect
         }
@@ -202,7 +202,7 @@ fun PriceCompareScreen(
             curPrice = newPrice,
             quantity = newQuantity,
             priceUnit = if (priceRecord.quantity == null) null else PriceUnit.entries[priceRecord.unit],
-            onValueChange = { newPrice = it.toInt() },
+            onValueChange = { newPrice = it },
             onQuantityChange = { newQuantity = it },
             onActionDone = { focusManager.clearFocus() }
         )

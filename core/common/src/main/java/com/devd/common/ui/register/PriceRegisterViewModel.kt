@@ -20,8 +20,8 @@ import javax.inject.Inject
 
 data class PriceRegisterUiState(
     val productName: String = "",
-    val regularPrice: Int = -1,
-    val purchasePrice: Int = -1,
+    val regularPrice: Long = -1,
+    val purchasePrice: Long = -1,
     val selectStoreIndex: Int = 0,
     val quantity: Long = -1,
     val selectQuantityIndex: Int = 0,
@@ -68,11 +68,11 @@ class PriceRegisterViewModel @Inject constructor(
         _uiState.update { it.copy(productName = name) }
     }
 
-    fun updateRegularPrice(price: Int) {
+    fun updateRegularPrice(price: Long) {
         _uiState.update { it.copy(regularPrice = price) }
     }
 
-    fun updatePurchasePrice(price: Int) {
+    fun updatePurchasePrice(price: Long) {
         _uiState.update { it.copy(purchasePrice = price) }
     }
 
@@ -106,14 +106,14 @@ class PriceRegisterViewModel @Inject constructor(
         viewModelScope.launch {
             val inputState = uiState.value
             if (inputState.productName.isEmpty()) return@launch simpleMessageDialog(R.string.need_product_name)
-            if (inputState.purchasePrice == -1) return@launch simpleMessageDialog(R.string.need_product_price)
+            if (inputState.purchasePrice == -1L) return@launch simpleMessageDialog(R.string.need_product_price)
 
             val result = insertNewPriceRecordUseCase.invoke(
                 PriceRecord(
                     id = -1L,
                     productName = inputState.productName,
                     martName = inputState.storeList[inputState.selectStoreIndex],
-                    originalPrice = inputState.regularPrice.takeIf { it != -1 },
+                    originalPrice = inputState.regularPrice.takeIf { it != -1L },
                     currentPrice = inputState.purchasePrice,
                     memo = inputState.infoMemo,
                     recordDate = System.currentTimeMillis(),

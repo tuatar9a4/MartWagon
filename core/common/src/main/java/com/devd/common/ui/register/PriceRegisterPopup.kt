@@ -129,8 +129,8 @@ fun PriceRegisterPopup(
 fun PriceRegisterScreen(
     uiState: PriceRegisterUiState,
     updateProductName: (String) -> Unit,
-    updateRegularPrice: (Int) -> Unit,
-    updatePurchasePrice: (Int) -> Unit,
+    updateRegularPrice: (Long) -> Unit,
+    updatePurchasePrice: (Long) -> Unit,
     updateSelectStore: (Int) -> Unit,
     updateQuantity: (Long) -> Unit,
     updateSelectQuantity: (Int) -> Unit,

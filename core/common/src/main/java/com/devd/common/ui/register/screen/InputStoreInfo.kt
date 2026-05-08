@@ -113,9 +113,10 @@ fun InputStoreInfo(
             textStyle = MaterialTheme.typography.bodyMedium.copy(
                 color = ColorMainText
             ),
+            singleLine = true,
             shape = RoundedCornerShape(10.dp),
             value = memo,
-            onValueChange = { onMemoUpdate(it) },
+            onValueChange = { if (it.length <= 15) onMemoUpdate(it) },
             keyboardActions = KeyboardActions(
                 onDone = { focusManager.clearFocus() }
             ),
@@ -147,9 +148,9 @@ fun InputStoreInfo(
 fun SimpleInputDialog(
     onConfirm: (String) -> Unit = {},
     onDismiss: () -> Unit = {},
-    onClearFocus : () -> Unit = {}
+    onClearFocus: () -> Unit = {}
 ) {
-    var memo by remember { mutableStateOf("") }
+    var martName by remember { mutableStateOf("") }
     Dialog(
         onDismissRequest = onDismiss
     ) {
@@ -177,12 +178,15 @@ fun SimpleInputDialog(
                 ),
                 shape = RoundedCornerShape(10.dp),
                 maxLines = 1,
-                value = memo,
+                singleLine = true,
+                value = martName,
                 keyboardActions = KeyboardActions(
                     onDone = { onClearFocus() }
                 ),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                onValueChange = { memo = it },
+                onValueChange = {
+                    if (it.length <= 10) martName = it
+                },
                 placeholder = {
                     Text(
                         text = stringResource(R.string.add_purchase_store_placeholder),
@@ -214,7 +218,7 @@ fun SimpleInputDialog(
                 )
                 Text(
                     modifier = Modifier
-                        .clickable(onClick = { onConfirm(memo) })
+                        .clickable(onClick = { onConfirm(martName) })
                         .weight(1f)
                         .padding(vertical = 15.dp),
                     text = stringResource(R.string.add_btn),

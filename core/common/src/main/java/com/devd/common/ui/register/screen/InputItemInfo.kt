@@ -15,12 +15,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.devd.common.R
 import com.devd.common.theme.ColorBlackF8
@@ -33,14 +38,30 @@ import com.devd.common.theme.ColorTertiaryText
 import com.devd.common.util.LabelText
 import com.devd.common.util.RoundedCard
 
+@Preview
+@Composable
+fun InputItemInfoPreview() {
+    var regularPrice by remember { mutableLongStateOf(-1) }
+    var purchasePrice by remember { mutableLongStateOf(-1) }
+
+    InputItemInfo(
+        productName = "삼다수 2L",
+        regularPrice = regularPrice,
+        purchasePrice = purchasePrice,
+        updateProductName = {},
+        updateRegularPrice = { regularPrice = it },
+        updatePurchasePrice = { purchasePrice = it }
+    )
+}
+
 @Composable
 fun InputItemInfo(
     productName: String,
-    regularPrice: Int,
-    purchasePrice: Int,
+    regularPrice: Long,
+    purchasePrice: Long,
     updateProductName: (String) -> Unit,
-    updateRegularPrice: (Int) -> Unit,
-    updatePurchasePrice: (Int) -> Unit
+    updateRegularPrice: (Long) -> Unit,
+    updatePurchasePrice: (Long) -> Unit
 ) {
     RoundedCard {
         LabelText(
@@ -74,13 +95,13 @@ fun InputItemInfo(
             PriceInputField(
                 isActive = false,
                 label = stringResource(R.string.option_original_price),
-                value = if (regularPrice == -1) "" else regularPrice.toString()
-            ) { updateRegularPrice(it.ifEmpty { "-1" }.toInt()) }
+                value = if (regularPrice == -1L) "" else regularPrice.toString()
+            ) { updateRegularPrice(it.ifEmpty { "-1" }.toLong()) }
             PriceInputField(
                 isActive = true,
                 label = stringResource(R.string.option_current_price),
-                value = if (purchasePrice == -1) "" else purchasePrice.toString()
-            ) { updatePurchasePrice(it.ifEmpty { "-1" }.toInt()) }
+                value = if (purchasePrice == -1L) "" else purchasePrice.toString()
+            ) { updatePurchasePrice(it.ifEmpty { "-1" }.toLong()) }
         }
     }
 }
@@ -108,6 +129,7 @@ fun RowScope.PriceInputField(
                 println("Check=>Price newValue=> ${newValue}")
                 if (newValue.all { it.isDigit() }) onValueChange(newValue)
             },
+            singleLine = true,
             textStyle = MaterialTheme.typography.bodyMedium.copy(
                 color = if (isActive) ColorPrimaryBlue else ColorDisable
             ),
