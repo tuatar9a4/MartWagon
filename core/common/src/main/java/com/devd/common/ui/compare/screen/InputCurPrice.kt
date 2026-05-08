@@ -51,7 +51,7 @@ fun InputCurPricePreview() {
         curPrice = curPrice,
         quantity = 0,
         priceUnit = PriceUnit.Milliliter,
-        onValueChange = { curPrice = it },
+        onValueChange = { curPrice = it.toInt() },
         onQuantityChange = {},
         onActionDone = {}
     )
@@ -60,14 +60,14 @@ fun InputCurPricePreview() {
 @Composable
 fun InputCurPrice(
     curPrice: Int,
-    quantity: Int,
+    quantity: Long,
     priceUnit: PriceUnit?,
-    onValueChange: (Int) -> Unit,
-    onQuantityChange: (Int) -> Unit,
+    onValueChange: (Long) -> Unit,
+    onQuantityChange: (Long) -> Unit,
     onActionDone: () -> Unit
 ) {
     val pricePerUnit =
-        if (quantity == 0 || quantity == -1 || curPrice == 0 || curPrice == -1 || priceUnit == null) null
+        if (quantity == 0L || quantity == -1L || curPrice == 0 || curPrice == -1 || priceUnit == null) null
         else {
             val formatter = DecimalFormat("#,###")
             formatter.format((curPrice.toFloat() * priceUnit.step / quantity))
@@ -85,7 +85,7 @@ fun InputCurPrice(
         )
         InputNumberWithTail(
             modifier = Modifier,
-            text = curPrice,
+            text = curPrice.toLong(),
             onNumberChange = onValueChange,
             placeHolderStr = R.string.new_price,
             tailStr = R.string.currency_unit,
@@ -155,8 +155,8 @@ fun InputCurPrice(
 @Composable
 fun InputNumberWithTail(
     modifier: Modifier,
-    text: Int,
-    onNumberChange: (Int) -> Unit,
+    text: Long,
+    onNumberChange: (Long) -> Unit,
     placeHolderStr: Int,
     tailStr: Int,
     imeAction: ImeAction,
@@ -171,9 +171,9 @@ fun InputNumberWithTail(
         verticalAlignment = Alignment.CenterVertically
     ) {
         BasicTextField(
-            value = if (text == -1) "" else text.toString(),
+            value = if (text == -1L) "" else text.toString(),
             onValueChange = {
-                if (it.all { it.isDigit() }) onNumberChange(it.ifEmpty { "-1" }.toInt())
+                if (it.all { it.isDigit() }) onNumberChange(it.ifEmpty { "-1" }.toLong())
             },
             modifier = Modifier
                 .weight(1f)
@@ -196,7 +196,7 @@ fun InputNumberWithTail(
                 ) {
                     Box() {
                         // 입력값이 비어있을 때 Placeholder 표시
-                        if (text == -1) {
+                        if (text == -1L) {
                             Text(
                                 text = stringResource(placeHolderStr),
                                 maxLines = 1,

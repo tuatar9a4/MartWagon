@@ -25,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,7 +57,7 @@ import com.devd.domain.model.database.PriceUnit
 @Preview
 @Composable
 fun InputQuantityInfoPreview() {
-    var quantity by remember { mutableStateOf(-1) }
+    var quantity by remember { mutableStateOf(-1L) }
     InputQuantityInfo(
         price = 5000,
         quantity = quantity,
@@ -71,9 +72,9 @@ fun InputQuantityInfoPreview() {
 @Composable
 fun InputQuantityInfo(
     price: Int,
-    quantity: Int,
+    quantity: Long,
     selectedIndex: Int,
-    onQuantityUpdate: (newQuantity: Int) -> Unit,
+    onQuantityUpdate: (newQuantity: Long) -> Unit,
     onQuantityUnitUpdate: (index: Int) -> Unit
 ) {
 
@@ -119,10 +120,11 @@ fun InputQuantityInfo(
             ) {
                 BasicTextField(
                     modifier = Modifier.weight(1f),
-                    value = quantity.takeIf { it != -1 }?.toString() ?: "",
+                    value = quantity.takeIf { it != -1L }?.toString() ?: "",
                     onValueChange = {
-                        if (it.all { it.isDigit() }) onQuantityUpdate(it.ifEmpty { "-1" }.toInt())
+                        if (it.all { it.isDigit() }) onQuantityUpdate(it.ifEmpty { "-1" }.toLong())
                     },
+                    singleLine = true,
                     textStyle = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
                         color = ColorWhite
@@ -140,7 +142,7 @@ fun InputQuantityInfo(
                         Box(
                             contentAlignment = Alignment.CenterStart
                         ) {
-                            if (quantity.takeIf { it != -1 }?.toString().isNullOrBlank()) {
+                            if (quantity.takeIf { it != -1L }?.toString().isNullOrBlank()) {
                                 Text(
                                     text = stringResource(R.string.quantity_placeholder),
                                     style = MaterialTheme.typography.bodyMedium.copy(
@@ -184,8 +186,10 @@ fun InputQuantityInfo(
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
-                    text = if (quantity == -1 || quantity == 0 || price == -1) "-"
+                    maxLines = 1,
+                    text = if (quantity == -1L || quantity == 0L || price == -1) "-"
                     else "${price * selectUnit.step / quantity} ${stringResource(R.string.currency_unit)}",
+                    autoSize = TextAutoSize.StepBased(minFontSize = 7.sp, maxFontSize = 22.sp),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,

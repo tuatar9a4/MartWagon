@@ -115,13 +115,13 @@ fun PriceCompareScreen(
     onCloseClick: () -> Unit
 ) {
     var newPrice by remember { mutableIntStateOf(-1) }
-    var newQuantity: Int by remember { mutableIntStateOf(-1) }
+    var newQuantity: Long by remember { mutableStateOf(-1) }
     var compareType: CompareType? by remember { mutableStateOf(null) }
 
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(newPrice, newQuantity) {
-        if (newPrice == -1 || (newQuantity == -1 && priceRecord.quantity != null)) {
+        if (newPrice == -1 || (newQuantity == -1L && priceRecord.quantity != null)) {
             compareType = null
             return@LaunchedEffect
         }
@@ -202,7 +202,7 @@ fun PriceCompareScreen(
             curPrice = newPrice,
             quantity = newQuantity,
             priceUnit = if (priceRecord.quantity == null) null else PriceUnit.entries[priceRecord.unit],
-            onValueChange = { newPrice = it },
+            onValueChange = { newPrice = it.toInt() },
             onQuantityChange = { newQuantity = it },
             onActionDone = { focusManager.clearFocus() }
         )
@@ -213,7 +213,7 @@ fun PriceCompareScreen(
                 onAddNewPrice = { memo ->
                     val newPrice = priceRecord.copy(
                         currentPrice = newPrice,
-                        quantity = if (newQuantity != -1) newQuantity else null,
+                        quantity = if (newQuantity != -1L) newQuantity else null,
                         memo = memo.ifEmpty { null },
                         recordDate = System.currentTimeMillis()
                     )

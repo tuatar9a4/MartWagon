@@ -5,8 +5,7 @@ import com.devd.domain.model.database.PriceRecord
 
 fun PriceRecordEntity.toDomain(): PriceRecord {
     val calculatedDiscount = originalPrice?.let {
-        if (it > currentPrice) ((it - currentPrice).toDouble() / it * 100).toInt()
-        else null
+        ((it - currentPrice).toDouble() / it * 100).toInt()
     }
 
     return PriceRecord(

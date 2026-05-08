@@ -32,7 +32,7 @@ data class PriceRecordEntity(
     val recordTimestamp: Long,
 
     @ColumnInfo(name = "quantity")
-    val quantity: Int? = null, // 용량 (예: 420.0, 500.0)
+    val quantity: Long? = null, // 용량 (예: 420.0, 500.0)
 
     @ColumnInfo(name = "unit")
     val unit: Int = 0, // 단위 (예: "g", "ml", "개")

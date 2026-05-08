@@ -21,4 +21,5 @@ object DataStoreKeys {
 
 object DataStoreObjKey {
     const val STORE_LIST_KEY = "MartListKey" // List<MartItem>
+    const val STORE_RECENT_SEARCH_WORD_KEY = "RecentSearchKey" // List<String>
 }

@@ -15,7 +15,7 @@ data class PriceRecord(
     val originalPrice: Int?,
     val memo: String?,
     val recordDate: Long,
-    val quantity: Int?,
+    val quantity: Long?,
     val unit: Int,
     val discountRate: Int?  // 매퍼에서 계산된 할인율
 ) {
@@ -48,7 +48,7 @@ data class PriceRecord(
 
     val unitPerPrice: String?
         get() = run {
-            quantity?.takeIf { it != -1 && it != 0 } ?: return@run null
+            quantity?.takeIf { it != -1L && it != 0L } ?: return@run null
             val formatter = DecimalFormat("#,###")
             val perPrice = currentPrice.toFloat() * PriceUnit.entries[unit].step / quantity
             formatter.format(perPrice.toInt())

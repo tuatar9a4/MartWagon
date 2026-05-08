@@ -23,7 +23,7 @@ data class PriceRegisterUiState(
     val regularPrice: Int = -1,
     val purchasePrice: Int = -1,
     val selectStoreIndex: Int = 0,
-    val quantity: Int = -1,
+    val quantity: Long = -1,
     val selectQuantityIndex: Int = 0,
     val storeList: List<String> = listOf(),
     val infoMemo: String = "",
@@ -80,7 +80,7 @@ class PriceRegisterViewModel @Inject constructor(
         _uiState.update { it.copy(selectStoreIndex = storeIndex) }
     }
 
-    fun updateQuantity(quantity: Int) {
+    fun updateQuantity(quantity: Long) {
         _uiState.update { it.copy(quantity = quantity) }
     }
 
@@ -117,7 +117,7 @@ class PriceRegisterViewModel @Inject constructor(
                     currentPrice = inputState.purchasePrice,
                     memo = inputState.infoMemo,
                     recordDate = System.currentTimeMillis(),
-                    quantity = inputState.quantity.takeIf { it != -1 },
+                    quantity = inputState.quantity.takeIf { it != -1L },
                     unit = inputState.selectQuantityIndex,
                     discountRate = null
                 )

@@ -45,7 +45,8 @@ sealed interface RecordAction {
 @Composable
 fun RecordScreenRoute(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onMoveSearchPage: () -> Unit
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -59,10 +60,10 @@ fun RecordScreenRoute(
     ) {
         RecordScreen(
             uiState = uiState,
-            homeActionListener = {
+            recordActionListener = {
                 when (it) {
                     RecordAction.OnSearchClick -> {
-                        viewModel.tempDeleteAllItem()
+                        onMoveSearchPage()
                     }
 
                     is RecordAction.OnCompareClick -> {
@@ -114,7 +115,7 @@ fun RecordScreenRoute(
 @Composable
 fun RecordScreen(
     uiState: HomeUiState,
-    homeActionListener: (RecordAction) -> Unit,
+    recordActionListener: (RecordAction) -> Unit,
 ) {
 
     Column(
@@ -122,7 +123,7 @@ fun RecordScreen(
     ) {
         TopBanner(
             onClickSearch = {
-                homeActionListener(RecordAction.OnSearchClick)
+                recordActionListener(RecordAction.OnSearchClick)
             }
         )
         Spacer(Modifier.height(20.dp))
@@ -136,10 +137,10 @@ fun RecordScreen(
             priceRecords = uiState.recordItems,
             onClickFilter = {},
             onCompareClick = { selectItem ->
-                homeActionListener(RecordAction.OnCompareClick(selectItem))
+                recordActionListener(RecordAction.OnCompareClick(selectItem))
             },
             onDeleteClick = {
-                homeActionListener(RecordAction.OnDeleteClick(it))
+                recordActionListener(RecordAction.OnDeleteClick(it))
             }
         )
     }
@@ -151,6 +152,6 @@ fun RecordScreen(
 fun RecordScreenPreview() {
     RecordScreen(
         uiState = HomeUiState(),
-        homeActionListener = {}
+        recordActionListener = {}
     )
 }

@@ -77,14 +77,22 @@ fun PriceRegisterScreenPreview() {
 @Composable
 fun PriceRegisterPopup(
     viewModel: PriceRegisterViewModel = hiltViewModel(),
+    searchWord: String = "",
     onDismiss: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        if (searchWord.isNotEmpty()) viewModel.updateProductName(searchWord)
+    }
+
     LaunchedEffect(viewModel.shouldBackPage) {
         Timber.d("CheckDismiss=> LaunchedEffect shouldBackPage ${viewModel.shouldBackPage}")
-        if (viewModel.shouldBackPage) onDismiss()
-        viewModel.initData()
+        if (viewModel.shouldBackPage) {
+            onDismiss()
+            viewModel.initData()
+        }
+
     }
 
     Dialog(
@@ -124,7 +132,7 @@ fun PriceRegisterScreen(
     updateRegularPrice: (Int) -> Unit,
     updatePurchasePrice: (Int) -> Unit,
     updateSelectStore: (Int) -> Unit,
-    updateQuantity: (Int) -> Unit,
+    updateQuantity: (Long) -> Unit,
     updateSelectQuantity: (Int) -> Unit,
     addMartItem: (String) -> Unit,
     updateMemo: (String) -> Unit,

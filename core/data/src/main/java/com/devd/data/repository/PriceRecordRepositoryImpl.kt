@@ -22,6 +22,10 @@ class PriceRecordRepositoryImpl @Inject constructor(
         return priceRecordDao.getAllRecords().map { it.map { it.toDomain() } }
     }
 
+    override suspend fun searchPriceRecordList(searchWord: String): Flow<List<PriceRecord>> {
+        return priceRecordDao.searchRecordsFlow(searchWord).map { it.map { it.toDomain() } }
+    }
+
     override suspend fun deleteItemWithId(id: Long) {
         priceRecordDao.deleteRecordById(id)
     }
