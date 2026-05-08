@@ -18,8 +18,16 @@ class PriceRecordRepositoryImpl @Inject constructor(
         return if (result == -1L) null else priceRecord
     }
 
+    override suspend fun fetchPriceRecord(): List<PriceRecord> {
+        return priceRecordDao.getAllRecords().map { it.toDomain() }
+    }
+
     override fun fetchPriceRecordFlow(): Flow<List<PriceRecord>> {
-        return priceRecordDao.getAllRecords().map { it.map { it.toDomain() } }
+        return priceRecordDao.getAllRecordsFlow().map { it.map { it.toDomain() } }
+    }
+
+    override suspend fun fetchPriceWithRange(sineTime: Long): List<PriceRecord> {
+        return priceRecordDao.getRecordsSince(sineTime).map { it.toDomain() }
     }
 
     override suspend fun searchPriceRecordList(searchWord: String): Flow<List<PriceRecord>> {

@@ -57,4 +57,5 @@
     <string name="search_word_placeholder">"기록한 상품명, 마트 검색"</string>
     <string name="empty_search_list">"검색 결과가 없어요"</string>
     <string name="ask_add_new_record">"새로 등록할까요?"</string>
+    <string name="original_price_with_currency">"기존 %s 원"</string>
 </resources>
