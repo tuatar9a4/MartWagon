@@ -82,7 +82,7 @@ fun InputStoreInfo(
                     },
                     shape = RoundedCornerShape(8.dp),
                     colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = ColorMainText, // 선택 시 어두운 색
+                        selectedContainerColor = ColorMainText,
                         selectedLabelColor = ColorWhite
                     )
                 )

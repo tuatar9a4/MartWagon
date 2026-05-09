@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.devd.common.R
 import com.devd.domain.model.common.MessageItem
 import com.devd.domain.model.database.PriceRecord
+import com.devd.domain.model.datastore.RegisterMetadata
 import com.devd.domain.usecase.record.InsertNewPriceRecordUseCase
 import com.devd.domain.usecase.store.GetStoreListUseCase
 import com.devd.domain.usecase.store.SaveStoreListUseCase
@@ -20,12 +21,16 @@ import javax.inject.Inject
 
 data class PriceRegisterUiState(
     val productName: String = "",
+    val category: String = "",
+    val registerMetadata: RegisterMetadata = RegisterMetadata(
+        listOf("이마트", "홈플러스", "코스트코"),
+        listOf("돼지고기", "콜라", "과자", "만두")
+    ),
     val regularPrice: Long = -1,
     val purchasePrice: Long = -1,
     val selectStoreIndex: Int = 0,
     val quantity: Long = -1,
     val selectQuantityIndex: Int = 0,
-    val storeList: List<String> = listOf(),
     val infoMemo: String = "",
     val messageItem: MessageItem? = null,
 )
@@ -43,29 +48,35 @@ class PriceRegisterViewModel @Inject constructor(
     var shouldBackPage by mutableStateOf(false)
 
     init {
-        initMartList()
+        initSavedList()
 
     }
 
     fun initData() {
         shouldBackPage = false
-        _uiState.update { PriceRegisterUiState(storeList = it.storeList) }
+        _uiState.update { PriceRegisterUiState() }
     }
 
-    private fun initMartList() {
+    private fun initSavedList() {
         viewModelScope.launch {
-            val savedStoreList = getStoreListUseCase()
-            if (savedStoreList.isNotEmpty()) _uiState.update { it.copy(storeList = savedStoreList) }
-            else {
-                val initList = listOf("이마트", "홈플러스", "코스트코")
-                _uiState.update { it.copy(storeList = initList) }
-                saveStoreListUseCase(initList)
+            val savedMetaData = getStoreListUseCase() ?: run {
+                val newMetadata = RegisterMetadata(
+                    listOf("이마트", "홈플러스", "코스트코"),
+                    listOf("돼지고기", "콜라", "과자", "만두")
+                )
+                saveStoreListUseCase(newMetadata)
+                newMetadata
             }
+            _uiState.update { it.copy(registerMetadata = savedMetaData) }
         }
     }
 
     fun updateProductName(name: String) {
         _uiState.update { it.copy(productName = name) }
+    }
+
+    fun updateCategory(category: String) {
+        _uiState.update { it.copy(category = category) }
     }
 
     fun updateRegularPrice(price: Long) {
@@ -88,13 +99,30 @@ class PriceRegisterViewModel @Inject constructor(
         _uiState.update { it.copy(selectQuantityIndex = quantityIndex) }
     }
 
-    fun addMartItem(addMart: String) {
+    fun updateMetadataItem(addMart: String? = null, addCategory: String? = null) {
         viewModelScope.launch {
-            val updateList = uiState.value.storeList + listOf(addMart)
-            _uiState.update {
-                it.copy(selectStoreIndex = updateList.size - 1, storeList = updateList)
+            var metadata = uiState.value.registerMetadata
+            var newStoreIndex = uiState.value.selectStoreIndex
+            addMart?.let {
+                metadata.martList.indexOf(addMart).takeIf { it == -1 }?.let {
+                    newStoreIndex = metadata.martList.size
+                    metadata = metadata.copy(martList = metadata.martList + addMart)
+                }
             }
-            saveStoreListUseCase(updateList)
+            addCategory?.let {
+                metadata.category.indexOf(addCategory).takeIf { it == -1 }?.let {
+                    metadata = metadata.copy(category = metadata.category + addCategory)
+                }
+            }
+
+            _uiState.update { uiState ->
+                uiState.copy(
+                    category = addCategory ?: uiState.category,
+                    selectStoreIndex = newStoreIndex,
+                    registerMetadata = metadata
+                )
+            }
+            saveStoreListUseCase(metadata)
         }
     }
 
@@ -106,13 +134,16 @@ class PriceRegisterViewModel @Inject constructor(
         viewModelScope.launch {
             val inputState = uiState.value
             if (inputState.productName.isEmpty()) return@launch simpleMessageDialog(R.string.need_product_name)
+            if (!inputState.registerMetadata.category.contains(inputState.category))
+                return@launch simpleMessageDialog(R.string.need_product_category)
             if (inputState.purchasePrice == -1L) return@launch simpleMessageDialog(R.string.need_product_price)
 
             val result = insertNewPriceRecordUseCase.invoke(
                 PriceRecord(
                     id = -1L,
                     productName = inputState.productName,
-                    martName = inputState.storeList[inputState.selectStoreIndex],
+                    category = inputState.category,
+                    martName = inputState.registerMetadata.martList[inputState.selectStoreIndex],
                     originalPrice = inputState.regularPrice.takeIf { it != -1L },
                     currentPrice = inputState.purchasePrice,
                     memo = inputState.infoMemo,

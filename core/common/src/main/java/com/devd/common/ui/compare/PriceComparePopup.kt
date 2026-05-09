@@ -63,6 +63,7 @@ fun PriceCompareScreenPreview() {
             productName = "Esther Roth",
             martName = "Robin Terry",
             currentPrice = 9524,
+            category = "",
             originalPrice = 2576,
             memo = "equidem",
             recordDate = 2893,

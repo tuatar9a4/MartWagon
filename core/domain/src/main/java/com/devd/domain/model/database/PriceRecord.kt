@@ -17,6 +17,7 @@ data class PriceRecord(
     val recordDate: Long,
     val quantity: Long?,
     val unit: Int,
+    val category :String,
     val discountRate: Int?  // 매퍼에서 계산된 할인율
 ) {
     val recordDateStr: String  // Presentation에 맞게 포맷팅된 날짜 (예: "2026.05.04")

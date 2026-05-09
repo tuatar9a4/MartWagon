@@ -44,6 +44,7 @@ fun CriterionInfoPreview() {
         PriceRecord(
             id = 3199,
             productName = "Esther Roth",
+            category = "",
             martName = "Robin Terry",
             currentPrice = 9524,
             originalPrice = 2576,
@@ -63,6 +64,7 @@ fun CriterionInfoNullPreview() {
         PriceRecord(
             id = 3199,
             productName = "Esther Roth",
+            category = "123",
             martName = "Robin Terry",
             currentPrice = 9524,
             originalPrice = null,

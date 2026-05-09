@@ -37,4 +37,7 @@ data class PriceRecordEntity(
     @ColumnInfo(name = "unit")
     val unit: Int = 0, // 단위 (예: "g", "ml", "개")
 
+    @ColumnInfo(name = "category")
+    val category: String
+
 )

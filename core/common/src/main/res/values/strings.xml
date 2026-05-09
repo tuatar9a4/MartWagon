@@ -13,6 +13,7 @@
     <string name="cancel">"취소"</string>
     <string name="confirm">"확인"</string>
     <string name="need_product_name">"제품 이름을 입력해야 합니다."</string>
+    <string name="need_product_category">"제품 카테고리를 선택해야 합니다."</string>
     <string name="need_product_price">"제품 가격을 입력해야 합니다."</string>
     <string name="fail_insert_product">"제품 추가 실패"</string>
     <string name="success_insert_product">"제품 추가 성공"</string>
@@ -58,4 +59,6 @@
     <string name="empty_search_list">"검색 결과가 없어요"</string>
     <string name="ask_add_new_record">"새로 등록할까요?"</string>
     <string name="original_price_with_currency">"기존 %s 원"</string>
+    <string name="category_placeholder">"예: 콜라,우유 등(비교 그룹 명칭)"</string>
+    <string name="category_description">"* 같은 카테고리로 묶어두면 통계 탭에서 제조사가 달라도 가성비를 정확히 비교할 수 있어요."</string>
 </resources>

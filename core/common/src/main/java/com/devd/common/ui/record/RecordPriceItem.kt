@@ -54,6 +54,7 @@ fun RecordPriceItemPreview() {
             martName = "Mercedes Dillard",
             currentPrice = 4039,
             originalPrice = 3582,
+            category = "",
             memo = "expetendis",
             recordDate = 2969,
             discountRate = 20,

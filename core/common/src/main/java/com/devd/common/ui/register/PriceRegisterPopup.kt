@@ -70,7 +70,7 @@ fun PriceRegisterScreenPreview() {
         {}, {}, {
             println("Check=>Price => ${it}")
             uiState = uiState.copy(purchasePrice = it)
-        }, {}, {}, {}, {}, {}, {}, {}
+        }, {}, {}, {}, {}, { _, _ -> }, {}, {}, {}
     )
 }
 
@@ -106,12 +106,13 @@ fun PriceRegisterPopup(
         PriceRegisterScreen(
             uiState = uiState,
             updateProductName = viewModel::updateProductName,
+            updateCategory = viewModel::updateCategory,
             updateRegularPrice = viewModel::updateRegularPrice,
             updatePurchasePrice = viewModel::updatePurchasePrice,
             updateSelectStore = viewModel::updateSelectStore,
             updateQuantity = viewModel::updateQuantity,
             updateSelectQuantity = viewModel::updateSelectQuantity,
-            addMartItem = viewModel::addMartItem,
+            updateMetadata = viewModel::updateMetadataItem,
             updateMemo = viewModel::updateMemo,
             backPressCall = {
                 viewModel.initData()
@@ -129,12 +130,13 @@ fun PriceRegisterPopup(
 fun PriceRegisterScreen(
     uiState: PriceRegisterUiState,
     updateProductName: (String) -> Unit,
+    updateCategory: (String) -> Unit,
     updateRegularPrice: (Long) -> Unit,
     updatePurchasePrice: (Long) -> Unit,
     updateSelectStore: (Int) -> Unit,
     updateQuantity: (Long) -> Unit,
     updateSelectQuantity: (Int) -> Unit,
-    addMartItem: (String) -> Unit,
+    updateMetadata: (String?, String?) -> Unit,
     updateMemo: (String) -> Unit,
     backPressCall: () -> Unit,
     savePriceRecord: () -> Unit
@@ -190,9 +192,13 @@ fun PriceRegisterScreen(
 //                ScanSection()
                 InputItemInfo(
                     productName = uiState.productName,
+                    category = uiState.category,
                     regularPrice = uiState.regularPrice,
                     purchasePrice = uiState.purchasePrice,
                     updateProductName = updateProductName,
+                    savedCategoryList = uiState.registerMetadata.category,
+                    updateCategory = updateCategory,
+                    addCategory = { updateMetadata(null, it) },
                     updateRegularPrice = updateRegularPrice,
                     updatePurchasePrice = updatePurchasePrice
                 )
@@ -203,13 +209,12 @@ fun PriceRegisterScreen(
                     onQuantityUpdate = updateQuantity,
                     onQuantityUnitUpdate = updateSelectQuantity
                 )
-
                 InputStoreInfo(
                     selectStoreIndex = uiState.selectStoreIndex,
-                    storeList = uiState.storeList,
+                    storeList = uiState.registerMetadata.martList,
                     memo = uiState.infoMemo,
                     onStoreSelected = updateSelectStore,
-                    onAddMartList = addMartItem,
+                    onAddMartList = { updateMetadata(it, null) },
                     onMemoUpdate = updateMemo
                 )
             }
