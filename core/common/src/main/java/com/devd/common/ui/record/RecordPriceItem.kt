@@ -202,16 +202,14 @@ fun RecordPriceItem(
                                 )
                             )
                         )
-                        item.unitPerPrice?.let {
-                            Text(
-                                text = "${item.unitPerStr}${stringResource(R.string.per_text)}" +
-                                        " ${item.unitPerPrice}${stringResource(R.string.currency_unit)}",
-                                style = MaterialTheme.typography.labelSmall.copy(
-                                    fontWeight = FontWeight.Bold,
-                                    color = ColorPrimaryBlue
-                                )
+                        Text(
+                            text = "${item.unitPerStr}${stringResource(R.string.per_text)}" +
+                                    " ${item.pricePerUnit}${stringResource(R.string.currency_unit)}",
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = ColorPrimaryBlue
                             )
-                        }
+                        )
 
                     }
                 }

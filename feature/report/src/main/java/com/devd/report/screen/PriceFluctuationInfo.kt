@@ -73,7 +73,8 @@ fun PriceFluctuationInfo(
             )
             Spacer(Modifier.width(10.dp))
             Text(
-                text = "최근 가격 급등 주의보!", style = MaterialTheme.typography.titleMedium.copy(
+                text = stringResource(R.string.price_fluctuation_title),
+                style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     color = ColorMainText
@@ -91,7 +92,7 @@ fun PriceFluctuationInfo(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "상승 1위",
+                    text = stringResource(R.string.fluctuation_top_up),
                     style = MaterialTheme.typography.labelMedium.copy(
                         fontWeight = FontWeight.Bold,
                         color = ColorRed
@@ -146,7 +147,7 @@ fun PriceFluctuationInfo(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "하락 1위",
+                    text = stringResource(R.string.fluctuation_top_down),
                     style = MaterialTheme.typography.labelMedium.copy(
                         fontWeight = FontWeight.Bold,
                         color = ColorPrimaryBlue

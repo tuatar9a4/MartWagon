@@ -101,7 +101,7 @@ class PriceRegisterViewModel @Inject constructor(
 
     fun updateMetadataItem(addMart: String? = null, addCategory: String? = null) {
         viewModelScope.launch {
-            var metadata = uiState.value.registerMetadata
+            var metadata = uiState.value.registerMetadata.copy()
             var newStoreIndex = uiState.value.selectStoreIndex
             addMart?.let {
                 metadata.martList.indexOf(addMart).takeIf { it == -1 }?.let {

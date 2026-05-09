@@ -13,7 +13,7 @@ class GetPriceFluctuationUseCase @Inject constructor(
     private val repository: PriceRecordRepository
 ) {
     // startDate: 한 달 전, 두 달 전 등의 Timestamp
-    suspend operator fun invoke(period: RangePeriod): FluctuationReport {
+    suspend operator fun invoke(period: RangePeriod): FluctuationReport? {
         // 1. 기간 내 데이터 모두 가져오기
         val records = if (period == RangePeriod.ALL_TIME) repository.fetchPriceRecord()
         else {
@@ -53,6 +53,7 @@ class GetPriceFluctuationUseCase @Inject constructor(
             Timber.d("Map=> $name ${oldest.currentPrice} => ${newest.currentPrice} | $oldUnitPrice , $newUnitPrice $rate")
             FluctuationInfo(name, oldest.currentPrice, newest.currentPrice, rate)
         }
+        if (fluctuations.size < 2) return null
 
         // 3. 정렬하여 Top 5 추출
         val surges =

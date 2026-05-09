@@ -165,16 +165,14 @@ fun CriterionInfo(
                         color = ColorMainText
                     )
                 )
-                priceRecord.unitPerPrice?.let {
-                    Text(
-                        text = "${priceRecord.unitPerStr}${stringResource(R.string.per_text)} " +
-                                "${priceRecord.unitPerPrice} ${stringResource(R.string.currency_unit)}",
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = ColorPrimaryBlue
-                        )
+                Text(
+                    text = "${priceRecord.unitPerStr}${stringResource(R.string.per_text)} " +
+                            "${priceRecord.pricePerUnit} ${stringResource(R.string.currency_unit)}",
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = ColorPrimaryBlue
                     )
-                }
+                )
             }
         }
         priceRecord.memo?.ifEmpty { null }?.let {

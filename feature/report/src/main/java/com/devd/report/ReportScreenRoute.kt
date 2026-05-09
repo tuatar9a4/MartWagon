@@ -15,6 +15,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.devd.domain.model.report.FluctuationInfo
 import com.devd.domain.model.report.FluctuationReport
+import com.devd.report.screen.CheapestMartRank
 import com.devd.report.screen.PriceFluctuationInfo
 import com.devd.report.screen.ReportTopBanner
 
@@ -53,6 +54,12 @@ fun ReportScreen(
                 fluctuationReport = it
             )
         }
+        Spacer(Modifier.height(20.dp))
+        if(uiState.martComparisonList.size >1){
+            CheapestMartRank(
+                rankingList = uiState.martComparisonList
+            )
+        }
     }
 
 }
@@ -76,7 +83,6 @@ fun ReportScreenPreview() {
                     discountRate = 8740
 
                 )
-
             )
         )
     )

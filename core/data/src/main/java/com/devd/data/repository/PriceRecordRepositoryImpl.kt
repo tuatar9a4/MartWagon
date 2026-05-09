@@ -30,6 +30,14 @@ class PriceRecordRepositoryImpl @Inject constructor(
         return priceRecordDao.getRecordsSince(sineTime).map { it.toDomain() }
     }
 
+    override suspend fun getAvailableCategories(): List<String> {
+        return priceRecordDao.getAvailableCategories()
+    }
+
+    override suspend fun getLatestPricesByCategory(category : String): List<PriceRecord> {
+        return priceRecordDao.getLatestPricesByCategory(category).map { it.toDomain() }
+    }
+
     override suspend fun searchPriceRecordList(searchWord: String): Flow<List<PriceRecord>> {
         return priceRecordDao.searchRecordsFlow(searchWord).map { it.map { it.toDomain() } }
     }

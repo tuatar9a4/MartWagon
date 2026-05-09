@@ -39,28 +39,52 @@ interface PriceRecordDao {
     suspend fun getAllRecords(): List<PriceRecordEntity>
 
     // 2. 검색 화면: 상품명 또는 마트명에 검색어가 포함된 항목 찾기
-    @Query("""
+    @Query(
+        """
         SELECT * FROM price_records 
         WHERE product_name LIKE '%' || :searchQuery || '%' 
         OR mart_name LIKE '%' || :searchQuery || '%' 
         ORDER BY record_timestamp DESC
-    """)
+    """
+    )
     fun searchRecordsFlow(searchQuery: String): Flow<List<PriceRecordEntity>>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM price_records 
         WHERE product_name LIKE '%' || :searchQuery || '%' 
         OR mart_name LIKE '%' || :searchQuery || '%' 
         ORDER BY record_timestamp DESC
-    """)
+    """
+    )
     suspend fun searchRecords(searchQuery: String): List<PriceRecordEntity>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM price_records 
         WHERE record_timestamp >= :startTimestamp 
         ORDER BY record_timestamp DESC
-    """)
+    """
+    )
     suspend fun getRecordsSince(startTimestamp: Long): List<PriceRecordEntity>
+
+    @Query("SELECT DISTINCT category FROM price_records WHERE category IS NOT NULL AND category != '' ORDER BY category ASC")
+    suspend fun getAvailableCategories(): List<String>
+
+    @Query(
+        """
+    SELECT * FROM price_records 
+    WHERE category = :category 
+    AND record_id IN (
+        SELECT record_id 
+        FROM price_records 
+        WHERE category = :category
+        GROUP BY mart_name, product_name 
+        HAVING MAX(record_timestamp)
+    )
+    """
+    )
+    suspend fun getLatestPricesByCategory(category: String): List<PriceRecordEntity>
 
     // 3. 비교하기 화면: 특정 상품의 과거 가격 기록 히스토리 가져오기
     // (현재 등록하려는 상품명과 똑같은 과거 기록들을 찾아 가격 변동을 계산할 때 사용)

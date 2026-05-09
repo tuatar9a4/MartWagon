@@ -34,7 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.devd.common.R
 import com.devd.common.theme.ColorBlackF8
-import com.devd.common.theme.ColorDisable
 import com.devd.common.theme.ColorMainText
 import com.devd.common.theme.ColorPrimaryBlue
 import com.devd.common.theme.ColorSecondaryText
@@ -227,7 +226,7 @@ fun RowScope.PriceInputField(
                 Text(
                     text = stringResource(R.string.currency_unit),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = if (isActive) ColorPrimaryBlue else ColorDisable
+                    color = if (isActive) ColorPrimaryBlue else ColorTertiaryText
                 )
             },
             keyboardActions = KeyboardActions(

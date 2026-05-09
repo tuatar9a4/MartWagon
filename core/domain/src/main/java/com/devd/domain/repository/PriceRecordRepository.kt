@@ -8,6 +8,8 @@ interface PriceRecordRepository {
     fun fetchPriceRecordFlow(): Flow<List<PriceRecord>>
     suspend fun fetchPriceRecord(): List<PriceRecord>
     suspend fun fetchPriceWithRange(sineTime: Long): List<PriceRecord>
+    suspend fun getAvailableCategories() : List<String>
+    suspend fun getLatestPricesByCategory(category : String) : List<PriceRecord>
     suspend fun searchPriceRecordList(searchWord: String): Flow<List<PriceRecord>>
     suspend fun deleteItemWithId(id: Long)
     suspend fun tempDeleteAllItem()

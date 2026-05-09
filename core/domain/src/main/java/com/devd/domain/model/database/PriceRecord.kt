@@ -17,7 +17,7 @@ data class PriceRecord(
     val recordDate: Long,
     val quantity: Long?,
     val unit: Int,
-    val category :String,
+    val category: String,
     val discountRate: Int?  // 매퍼에서 계산된 할인율
 ) {
     val recordDateStr: String  // Presentation에 맞게 포맷팅된 날짜 (예: "2026.05.04")
@@ -43,15 +43,15 @@ data class PriceRecord(
     val unitPerStr: String
         @Composable
         get() = run {
-            val selectUnit = PriceUnit.entries[unit]
+            val selectUnit = quantity?.let { PriceUnit.entries[unit] } ?: PriceUnit.Piece
             "${selectUnit.step}${stringResource(selectUnit.display)}"
         }
 
-    val unitPerPrice: String?
+    val pricePerUnit: String
         get() = run {
-            quantity?.takeIf { it != -1L && it != 0L } ?: return@run null
             val formatter = DecimalFormat("#,###")
-            val perPrice = currentPrice.toFloat() * PriceUnit.entries[unit].step / quantity
+            val perPrice = currentPrice.toFloat() * PriceUnit.entries[unit].step /
+                    (quantity ?: PriceUnit.entries[unit].step.toLong())
             formatter.format(perPrice.toInt())
         }
 }
