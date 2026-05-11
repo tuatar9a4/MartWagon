@@ -1,7 +1,6 @@
 package com.devd.domain.model.datastore
 
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
 
@@ -9,13 +8,9 @@ interface DataStoreKey<T> {
     val key: Preferences.Key<T>
 }
 
-// 구체적인 키 정의 (예시)
 object DataStoreKeys {
-    val USER_NAME = object : DataStoreKey<String> {
-        override val key = stringPreferencesKey("user_name")
-    }
-    val IS_LOGGED_IN = object : DataStoreKey<Boolean> {
-        override val key = booleanPreferencesKey("is_logged_in")
+    val CHART_PRODUCT_NAME = object : DataStoreKey<String> {
+        override val key = stringPreferencesKey("chartProductName")
     }
 }
 

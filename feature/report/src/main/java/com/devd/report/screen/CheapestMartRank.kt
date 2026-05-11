@@ -215,14 +215,14 @@ fun RankItem(
             ) {
                 Text(
                     text = martName,
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Medium,
                         color = if (isFirst) ColorWhite else ColorSecondaryText
                     )
                 )
                 Text(
                     text = stringResource(R.string.cheapest_count, itemCount),
-                    style = MaterialTheme.typography.titleSmall.copy(
+                    style = MaterialTheme.typography.bodySmall.copy(
                         fontWeight = FontWeight.Bold,
                         color = if (isFirst) ColorYellow else ColorSecondaryText
                     )

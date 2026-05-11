@@ -2,6 +2,7 @@ package com.devd.data
 
 import com.devd.database.entitiy.PriceRecordEntity
 import com.devd.domain.model.database.PriceRecord
+import com.devd.domain.model.report.SimplePriceInfo
 
 fun PriceRecordEntity.toDomain(): PriceRecord {
     val calculatedDiscount = originalPrice?.let {
@@ -20,6 +21,13 @@ fun PriceRecordEntity.toDomain(): PriceRecord {
         unit = this.unit,
         category = this.category,
         discountRate = calculatedDiscount
+    )
+}
+fun PriceRecordEntity.toSimplePrice(): SimplePriceInfo {
+    return SimplePriceInfo(
+        productName = this.productName,
+        price = this.currentPrice,
+        date = this.recordTimestamp
     )
 }
 

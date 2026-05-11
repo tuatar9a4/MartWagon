@@ -62,10 +62,11 @@
     <string name="category_placeholder">"예: 콜라,우유 등(비교 그룹 명칭)"</string>
     <string name="category_description">"* 같은 카테고리로 묶어두면 통계 탭에서 제조사가 달라도 가성비를 정확히 비교할 수 있어요."</string>
     <string name="price_report_title">"이번 달, 나의 물가 리포트"</string>
-    <string name="price_report_description">"나의 기록을 분석한 나만의 말구 지수 입니다."</string>
+    <string name="price_report_description">"나의 기록을 분석한 나만의 물가 지수 입니다."</string>
     <string name="price_fluctuation_title">"가격 급등 주의보!"</string>
     <string name="fluctuation_top_up">"상승 1위"</string>
     <string name="fluctuation_top_down">"하락 1위"</string>
     <string name="ask_cheapest_mart">"가장 저렴했던 마트는 어디일까?"</string>
     <string name="cheapest_count">"비교 우위 %s 건"</string>
+    <string name="price_chart_title">"가격 추이 그래프"</string>
 </resources>

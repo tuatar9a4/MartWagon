@@ -10,23 +10,24 @@ import java.time.ZonedDateTime
 import javax.inject.Inject
 
 class GetPriceFluctuationUseCase @Inject constructor(
-    private val repository: PriceRecordRepository
+    private val priceRecordRepository: PriceRecordRepository
 ) {
     // startDate: 한 달 전, 두 달 전 등의 Timestamp
     suspend operator fun invoke(period: RangePeriod): FluctuationReport? {
         // 1. 기간 내 데이터 모두 가져오기
-        val records = if (period == RangePeriod.ALL_TIME) repository.fetchPriceRecord()
+        val records = if (period == RangePeriod.ALL_TIME) priceRecordRepository.fetchPriceRecord()
         else {
             val startTimestamp = ZonedDateTime.now()
                 .minusMonths(period.months.toLong())
                 .toInstant()
                 .toEpochMilli()
-            repository.fetchPriceWithRange(startTimestamp)
+            priceRecordRepository.fetchPriceWithRange(startTimestamp)
         }
 
         // 2. 상품명 단위로 그룹화
         val groupedByProduct = records.groupBy { it.productName }
 
+        Timber.d("Map=> $groupedByProduct")
         val fluctuations = groupedByProduct.mapNotNull { (name, productRecords) ->
             if (productRecords.size < 2) return@mapNotNull null // 비교할 대상이 없으면 제외
 
@@ -46,6 +47,7 @@ class GetPriceFluctuationUseCase @Inject constructor(
                 price = newest.currentPrice,
                 quantity = newest.quantity
             )
+            Timber.d("Map=> $name $oldUnitPrice")
 
             if (oldUnitPrice == 0L) return@mapNotNull null
 

@@ -1,6 +1,7 @@
 package com.devd.domain.repository
 
 import com.devd.domain.model.database.PriceRecord
+import com.devd.domain.model.report.SimplePriceInfo
 import kotlinx.coroutines.flow.Flow
 
 interface PriceRecordRepository {
@@ -10,7 +11,8 @@ interface PriceRecordRepository {
     suspend fun fetchPriceWithRange(sineTime: Long): List<PriceRecord>
     suspend fun getAvailableCategories() : List<String>
     suspend fun getLatestPricesByCategory(category : String) : List<PriceRecord>
-    suspend fun searchPriceRecordList(searchWord: String): Flow<List<PriceRecord>>
+    suspend fun searchPriceRecordListFlow(searchWord: String): Flow<List<PriceRecord>>
+    suspend fun fetchSimplePriceList(product: String): List<SimplePriceInfo>
     suspend fun deleteItemWithId(id: Long)
     suspend fun tempDeleteAllItem()
 }

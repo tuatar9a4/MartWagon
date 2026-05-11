@@ -4,7 +4,7 @@ import com.devd.domain.model.report.CategoryReport
 import com.devd.domain.repository.PriceRecordRepository
 import javax.inject.Inject
 
-class MartComparisonUseCase @Inject constructor(
+class GetMartComparisonUseCase @Inject constructor(
     private val priceRecordRepository: PriceRecordRepository
 ) {
     suspend operator fun invoke(): List<Pair<String, List<CategoryReport>>> {

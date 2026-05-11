@@ -10,6 +10,6 @@ class FetchSearchPriceRecordListUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(searchWord: String): Flow<List<PriceRecord>> {
-        return priceRecordRepository.searchPriceRecordList(searchWord)
+        return priceRecordRepository.searchPriceRecordListFlow(searchWord)
     }
 }
