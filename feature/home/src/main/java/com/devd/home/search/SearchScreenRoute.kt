@@ -3,6 +3,7 @@ package com.devd.home.search
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -38,6 +40,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.devd.common.R
 import com.devd.common.theme.ColorBackground
 import com.devd.common.theme.ColorMainText
+import com.devd.common.theme.ColorPrimaryBlue
+import com.devd.common.theme.ColorSecondaryText
 import com.devd.common.theme.ColorTertiaryText
 import com.devd.common.theme.ColorWhite
 import com.devd.common.ui.dialog.ShowLoadingDialog
@@ -49,7 +53,6 @@ sealed interface SearchAction {
     data class OnDeleteSearchWord(val word: String) : SearchAction
     data object OnDeleteAllSearchWord : SearchAction
     data object OnClearSearchList : SearchAction
-    data object BackAction : SearchAction
 }
 
 @Composable
@@ -70,7 +73,6 @@ fun SearchScreenRoute(
                 is SearchAction.OnDeleteSearchWord -> viewModel.deleteWord(it.word)
                 is SearchAction.OnSearchWord -> viewModel.updateNewWord(it.word)
                 SearchAction.OnClearSearchList -> viewModel.clearSearchList()
-                SearchAction.BackAction -> onBackClick()
             }
         }
     )
@@ -95,18 +97,48 @@ fun SearchScreen(
     ) {
         Row(
             modifier = Modifier
-                .background(ColorWhite)
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Image(
+                modifier = Modifier.height(25.dp),
+                painter = painterResource(R.drawable.img_home_banner),
+                contentDescription = null,
+            )
+            Image(
+                modifier = Modifier
+                    .clickable(onClick = {})
+                    .size(36.dp)
+                    .background(ColorWhite, RoundedCornerShape(15.dp))
+                    .padding(10.dp),
+                painter = painterResource(R.drawable.icon_setting),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(ColorSecondaryText)
+            )
+        }
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 20.dp, vertical = 5.dp)
+                .shadow(
+                    elevation = 10.dp,
+                    shape = RoundedCornerShape(20.dp),
+                    spotColor = ColorTertiaryText,
+                    ambientColor = ColorTertiaryText
+                )
+                .background(ColorWhite, RoundedCornerShape(20.dp))
                 .fillMaxWidth()
                 .padding(vertical = 10.dp, horizontal = 20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                modifier = Modifier.clickable(onClick = { searchActionListener(SearchAction.BackAction) }),
-                painter = painterResource(R.drawable.icon_left_arrow),
+                modifier = Modifier.width(20.dp),
+                painter = painterResource(R.drawable.icon_search),
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(ColorMainText)
+                colorFilter = ColorFilter.tint(ColorPrimaryBlue)
             )
-            Spacer(Modifier.width(20.dp))
+            Spacer(Modifier.width(10.dp))
             Box(
                 modifier = Modifier.weight(1f)
             ) {
@@ -128,7 +160,7 @@ fun SearchScreen(
                     decorationBox = { innerTextField ->
                         Box(
                             modifier = Modifier
-                                .background(ColorBackground, RoundedCornerShape(10.dp))
+                                .background(ColorWhite, RoundedCornerShape(10.dp))
                                 .padding(10.dp)
                                 .padding(end = 25.dp)
                         ) {
@@ -139,9 +171,8 @@ fun SearchScreen(
                                         color = ColorTertiaryText
                                     )
                                 )
-                            } else {
-                                innerTextField()
                             }
+                            innerTextField()
                         }
                     }
                 )

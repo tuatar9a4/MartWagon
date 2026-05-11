@@ -37,11 +37,11 @@ import com.devd.common.theme.ColorPrimaryBlue
 import com.devd.common.theme.ColorWhite
 import com.devd.common.theme.MartWagonTheme
 import com.devd.common.ui.register.PriceRegisterPopup
-import com.devd.home.navigation.RecordNavs
 import com.devd.home.navigation.SearchNav
-import com.devd.home.record.RecordScreenRoute
 import com.devd.home.search.SearchScreenRoute
 import com.devd.martwagon.screen.BottonNaviItem
+import com.devd.record.navigation.RecordNavs
+import com.devd.record.record.RecordScreenRoute
 import com.devd.report.ReportScreenRoute
 import com.devd.report.navigation.ReportNavs
 import com.devd.setting.SettingScreenRoute
@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
             var isShowRegisterPopup by remember { mutableStateOf(false) }
 
             MartWagonTheme {
-                val backStack = rememberNavBackStack(RecordNavs)
+                val backStack = rememberNavBackStack(SearchNav)
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     floatingActionButton = {
@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
                             is RecordNavs,
                             is ReportNavs,
                             is GroupNavs,
-                            is SettingNavs -> {
+                            is SearchNav -> {
                                 FloatingActionButton(
                                     modifier = Modifier
                                         .size(60.dp)
@@ -98,7 +98,8 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
                             }
-                            else ->{}
+
+                            else -> {}
                         }
                     },
                     floatingActionButtonPosition = FabPosition.Center,
@@ -107,11 +108,27 @@ class MainActivity : ComponentActivity() {
                             is RecordNavs,
                             is ReportNavs,
                             is GroupNavs,
-                            is SettingNavs -> {
+                            is SearchNav -> {
                                 BottomAppBar(
                                     contentPadding = PaddingValues(horizontal = 16.dp),
                                     containerColor = ColorWhite
                                 ) {
+                                    BottonNaviItem(
+                                        isSelect = currentRoute is SearchNav,
+                                        icon = R.drawable.icon_search,
+                                        label = R.string.tab_search,
+                                        onClick = {
+                                            val index = backStack.indexOfFirst { it is SearchNav }
+                                            if (index != -1) {
+                                                // 백 스택에 이미 있으면 그 위치로 돌아간다
+                                                while (backStack.size > index + 1) {
+                                                    backStack.removeAt(backStack.size - 1)
+                                                }
+                                            } else {
+                                                backStack.add(SearchNav)
+                                            }
+                                        },
+                                    )
                                     BottonNaviItem(
                                         isSelect = currentRoute is RecordNavs,
                                         icon = R.drawable.icon_home,
@@ -128,6 +145,7 @@ class MainActivity : ComponentActivity() {
                                             }
                                         },
                                     )
+                                    Spacer(Modifier.weight(1f))
                                     BottonNaviItem(
                                         isSelect = currentRoute is ReportNavs,
                                         icon = R.drawable.icon_chart,
@@ -144,7 +162,6 @@ class MainActivity : ComponentActivity() {
                                             }
                                         },
                                     )
-                                    Spacer(Modifier.weight(1f))
                                     BottonNaviItem(
                                         isSelect = currentRoute is GroupNavs,
                                         icon = R.drawable.icon_tag,
@@ -158,22 +175,6 @@ class MainActivity : ComponentActivity() {
                                                 }
                                             } else {
                                                 backStack.add(GroupNavs)
-                                            }
-                                        },
-                                    )
-                                    BottonNaviItem(
-                                        isSelect = currentRoute is SettingNavs,
-                                        icon = R.drawable.icon_setting,
-                                        label = R.string.tab_setting,
-                                        onClick = {
-                                            val index = backStack.indexOfFirst { it is SettingNavs }
-                                            if (index != -1) {
-                                                // 백 스택에 이미 있으면 그 위치로 돌아간다
-                                                while (backStack.size > index + 1) {
-                                                    backStack.removeAt(backStack.size - 1)
-                                                }
-                                            } else {
-                                                backStack.add(SettingNavs)
                                             }
                                         },
                                     )
@@ -204,7 +205,7 @@ class MainActivity : ComponentActivity() {
                                 RecordScreenRoute(
                                     modifier = paddingModifier,
                                     onMoveSearchPage = {
-                                        backStack.add(SearchNav)
+                                        backStack.add(SettingNavs)
                                     }
                                 )
                             }

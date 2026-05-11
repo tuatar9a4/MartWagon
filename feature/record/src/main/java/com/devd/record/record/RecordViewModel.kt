@@ -1,4 +1,4 @@
-package com.devd.home.record
+package com.devd.record.record
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -3,7 +3,7 @@
     <string name="tab_record">Record</string>
     <string name="tab_report">Report</string>
     <string name="tab_tag">Mart/Tag</string>
-    <string name="tab_setting">Setting</string>
+    <string name="tab_search">Search</string>
     <string name="my_recorder">"내 장바구니 기록장"</string>
     <string name="item_text">"품목"</string>
     <string name="total_record_item">"총 기록된 상품"</string>

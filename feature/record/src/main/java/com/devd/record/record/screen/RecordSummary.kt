@@ -1,4 +1,4 @@
-package com.devd.home.record.screen
+package com.devd.record.record.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

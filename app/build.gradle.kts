@@ -35,6 +35,7 @@ dependencies {
     implementation(projects.feature.report)
     implementation(projects.feature.setting)
     implementation(projects.feature.tag)
+    implementation(projects.feature.record)
     implementation(projects.core.domain)
     implementation(projects.core.data)
     implementation(projects.core.common)

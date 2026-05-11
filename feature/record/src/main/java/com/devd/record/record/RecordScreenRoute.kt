@@ -1,4 +1,4 @@
-package com.devd.home.record
+package com.devd.record.record
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,9 +20,9 @@ import com.devd.common.theme.ColorBackground
 import com.devd.common.ui.compare.PriceComparePopup
 import com.devd.common.ui.dialog.ShowMessageDialog
 import com.devd.domain.model.database.PriceRecord
-import com.devd.home.record.screen.RecordList
-import com.devd.home.record.screen.RecordSummary
-import com.devd.home.record.screen.TopBanner
+import com.devd.record.record.screen.RecordList
+import com.devd.record.record.screen.RecordSummary
+import com.devd.record.record.screen.TopBanner
 
 sealed interface RecordAction {
     data object OnSearchClick : RecordAction

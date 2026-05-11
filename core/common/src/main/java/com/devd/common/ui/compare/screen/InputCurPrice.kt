@@ -195,7 +195,6 @@ fun InputNumberWithTail(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box() {
-                        // 입력값이 비어있을 때 Placeholder 표시
                         if (text == -1L) {
                             Text(
                                 text = stringResource(placeHolderStr),
@@ -207,7 +206,6 @@ fun InputNumberWithTail(
                                 autoSize = TextAutoSize.StepBased(7.sp, 14.sp)
                             )
                         }
-                        // 실제 입력 필드가 그려지는 위치
                         innerTextField()
                     }
 

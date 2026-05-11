@@ -1,4 +1,4 @@
-package com.devd.home.navigation
+package com.devd.record.navigation
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable

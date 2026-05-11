@@ -77,18 +77,18 @@ fun BorderTextField(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    if (value.isEmpty() && placeHolder != null) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = stringResource(placeHolder),
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                color = ColorTertiaryText
+                    Box(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        if (value.isEmpty() && placeHolder != null) {
+                            Text(
+                                text = stringResource(placeHolder),
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = ColorTertiaryText
+                                )
                             )
-                        )
-                    } else {
-                        Box(modifier = Modifier.weight(1f)) {
-                            innerTextField()
                         }
+                        innerTextField()
                     }
                     if (suffix != null) {
                         Spacer(Modifier.width(5.dp))
