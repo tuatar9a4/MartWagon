@@ -151,7 +151,10 @@ class MainActivity : ComponentActivity() {
                             }
                             entry<SearchNav> {
                                 SearchScreenRoute(
-                                    modifier = paddingModifier
+                                    modifier = paddingModifier,
+                                    onBackClick = {
+                                        if (backStack.size > 1) backStack.removeAt(backStack.size - 1)
+                                    }
                                 )
                             }
                             entry<ReportNavs> {
