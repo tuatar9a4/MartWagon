@@ -97,13 +97,6 @@ fun RecordPriceItem(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        modifier = Modifier.size(15.dp),
-                        painter = painterResource(R.drawable.icon_tag),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(ColorSecondaryText)
-                    )
-                    Spacer(Modifier.width(5.dp))
                     Text(
                         modifier = Modifier
                             .background(ColorDivider, RoundedCornerShape(5.dp))
@@ -147,13 +140,32 @@ fun RecordPriceItem(
                 )
             }
             Spacer(Modifier.height(10.dp))
-            Text(
-                text = item.productName,
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = ColorMainText
+            Column() {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(R.drawable.icon_tag),
+                        contentDescription = null,
+                        modifier = Modifier.size(12.dp),
+                        colorFilter = ColorFilter.tint(ColorTertiaryText)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = item.category,
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            color = ColorTertiaryText,
+                            fontSize = 10.sp
+                        ),
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Text(
+                    text = item.productName,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = ColorMainText
+                    )
                 )
-            )
+            }
             Spacer(Modifier.height(10.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
