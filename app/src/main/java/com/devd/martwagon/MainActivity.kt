@@ -18,7 +18,7 @@ import com.devd.common.R
 import com.devd.common.theme.ColorBackground
 import com.devd.common.theme.ColorWhite
 import com.devd.common.theme.MartWagonTheme
-import com.devd.home.navigation.RecordNav
+import com.devd.home.navigation.RecordNavs
 import com.devd.home.navigation.SearchNav
 import com.devd.home.record.RecordScreenRoute
 import com.devd.home.search.SearchScreenRoute
@@ -27,8 +27,10 @@ import com.devd.report.ReportScreenRoute
 import com.devd.report.navigation.ReportNavs
 import com.devd.setting.SettingScreenRoute
 import com.devd.setting.navigation.SettingNavs
-import com.devd.tag.TagScreenRoute
-import com.devd.tag.navigation.TagNavs
+import com.devd.tag.detail.DetailScreenRoute
+import com.devd.tag.group.GroupScreenRoute
+import com.devd.tag.navigation.DetailNavs
+import com.devd.tag.navigation.GroupNavs
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,32 +41,32 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MartWagonTheme {
-                val backStack = rememberNavBackStack(RecordNav)
+                val backStack = rememberNavBackStack(RecordNavs)
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
                         val currentRoute = backStack.lastOrNull()
                         when (currentRoute) {
-                            is RecordNav,
+                            is RecordNavs,
                             is ReportNavs,
-                            is TagNavs,
+                            is GroupNavs,
                             is SettingNavs -> {
                                 NavigationBar(
                                     containerColor = ColorWhite
                                 ) {
                                     BottonNaviItem(
-                                        isSelect = currentRoute is RecordNav,
+                                        isSelect = currentRoute is RecordNavs,
                                         icon = R.drawable.icon_home,
                                         label = R.string.tab_record,
                                         onClick = {
-                                            val index = backStack.indexOfFirst { it is RecordNav }
+                                            val index = backStack.indexOfFirst { it is RecordNavs }
                                             if (index != -1) {
                                                 // 백 스택에 이미 있으면 그 위치로 돌아간다
                                                 while (backStack.size > index + 1) {
                                                     backStack.removeAt(backStack.size - 1)
                                                 }
                                             } else {
-                                                backStack.add(RecordNav)
+                                                backStack.add(RecordNavs)
                                             }
                                         },
                                     )
@@ -85,18 +87,18 @@ class MainActivity : ComponentActivity() {
                                         },
                                     )
                                     BottonNaviItem(
-                                        isSelect = currentRoute is TagNavs,
+                                        isSelect = currentRoute is GroupNavs,
                                         icon = R.drawable.icon_tag,
                                         label = R.string.tab_tag,
                                         onClick = {
-                                            val index = backStack.indexOfFirst { it is TagNavs }
+                                            val index = backStack.indexOfFirst { it is GroupNavs }
                                             if (index != -1) {
                                                 // 백 스택에 이미 있으면 그 위치로 돌아간다
                                                 while (backStack.size > index + 1) {
                                                     backStack.removeAt(backStack.size - 1)
                                                 }
                                             } else {
-                                                backStack.add(TagNavs)
+                                                backStack.add(GroupNavs)
                                             }
                                         },
                                     )
@@ -139,7 +141,7 @@ class MainActivity : ComponentActivity() {
                             }
                         },
                         entryProvider = entryProvider {
-                            entry<RecordNav> {
+                            entry<RecordNavs> {
                                 RecordScreenRoute(
                                     modifier = paddingModifier,
                                     onMoveSearchPage = {
@@ -157,9 +159,22 @@ class MainActivity : ComponentActivity() {
                                     modifier = paddingModifier
                                 )
                             }
-                            entry<TagNavs> {
-                                TagScreenRoute(
-                                    modifier = paddingModifier
+                            entry<GroupNavs> {
+                                GroupScreenRoute(
+                                    modifier = paddingModifier,
+                                    onMoveDetailPage = { detailType, itemName ->
+                                        backStack.add(DetailNavs(detailType, itemName))
+                                    }
+                                )
+                            }
+                            entry<DetailNavs> {
+                                DetailScreenRoute(
+                                    modifier = paddingModifier,
+                                    detailType = it.detailType,
+                                    itemName = it.itemName,
+                                    onBackClick = {
+                                        if (backStack.size > 1) backStack.removeAt(backStack.size - 1)
+                                    }
                                 )
                             }
                             entry<SettingNavs> {

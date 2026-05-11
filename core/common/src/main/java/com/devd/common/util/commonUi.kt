@@ -30,12 +30,15 @@ import com.devd.common.theme.ColorWhite
 
 @Composable
 fun RoundedCard(
+    modifier: Modifier = Modifier,
     containerColor: Color = ColorWhite,
     borderColor: Color = ColorSemiBlue,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier
+            .padding(1.dp)
+            .fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
         color = containerColor,
         border = BorderStroke(1.dp, borderColor),

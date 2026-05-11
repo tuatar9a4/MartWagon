@@ -32,6 +32,14 @@ class PriceRecordRepositoryImpl @Inject constructor(
         return priceRecordDao.getRecordsSince(sineTime).map { it.toDomain() }
     }
 
+    override fun fetchRecordsByMart(martName: String): Flow<List<PriceRecord>> {
+        return priceRecordDao.getRecordsByMart(martName).map { it.map { it.toDomain() } }
+    }
+
+    override fun fetchRecordsByCategory(categoryName: String): Flow<List<PriceRecord>> {
+        return priceRecordDao.getRecordsByCategory(categoryName).map { it.map { it.toDomain() } }
+    }
+
     override suspend fun getAvailableCategories(): List<String> {
         return priceRecordDao.getAvailableCategories()
     }
@@ -45,7 +53,7 @@ class PriceRecordRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchSimplePriceList(product: String): List<SimplePriceInfo> {
-        return priceRecordDao.searchRecords(product).map {  it.toSimplePrice() }
+        return priceRecordDao.searchRecords(product).map { it.toSimplePrice() }
     }
 
     override suspend fun deleteItemWithId(id: Long) {

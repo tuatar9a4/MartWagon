@@ -9,21 +9,24 @@ import com.devd.common.R
 import com.devd.domain.model.common.MessageItem
 import com.devd.domain.model.database.PriceRecord
 import com.devd.domain.model.datastore.RegisterMetadata
+import com.devd.domain.model.datastore.SavedMartData
+import com.devd.domain.model.group.defaultMartList
 import com.devd.domain.usecase.record.InsertNewPriceRecordUseCase
-import com.devd.domain.usecase.store.GetStoreListUseCase
-import com.devd.domain.usecase.store.SaveStoreListUseCase
+import com.devd.domain.usecase.store.GetSavedMetaDataListUseCase
+import com.devd.domain.usecase.store.SaveSavedMetaDataListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 data class PriceRegisterUiState(
     val productName: String = "",
     val category: String = "",
     val registerMetadata: RegisterMetadata = RegisterMetadata(
-        listOf("이마트", "홈플러스", "코스트코"),
+        defaultMartList,
         listOf("돼지고기", "콜라", "과자", "만두")
     ),
     val regularPrice: Long = -1,
@@ -37,8 +40,8 @@ data class PriceRegisterUiState(
 
 @HiltViewModel
 class PriceRegisterViewModel @Inject constructor(
-    private val getStoreListUseCase: GetStoreListUseCase,
-    private val saveStoreListUseCase: SaveStoreListUseCase,
+    private val getSavedMetaDataListUseCase: GetSavedMetaDataListUseCase,
+    private val saveSavedMetaDataListUseCase: SaveSavedMetaDataListUseCase,
     private val insertNewPriceRecordUseCase: InsertNewPriceRecordUseCase
 ) : ViewModel() {
 
@@ -59,12 +62,12 @@ class PriceRegisterViewModel @Inject constructor(
 
     private fun initSavedList() {
         viewModelScope.launch {
-            val savedMetaData = getStoreListUseCase() ?: run {
+            val savedMetaData = getSavedMetaDataListUseCase() ?: run {
                 val newMetadata = RegisterMetadata(
-                    listOf("이마트", "홈플러스", "코스트코"),
+                    defaultMartList,
                     listOf("돼지고기", "콜라", "과자", "만두")
                 )
-                saveStoreListUseCase(newMetadata)
+                saveSavedMetaDataListUseCase(newMetadata)
                 newMetadata
             }
             _uiState.update { it.copy(registerMetadata = savedMetaData) }
@@ -104,9 +107,16 @@ class PriceRegisterViewModel @Inject constructor(
             var metadata = uiState.value.registerMetadata.copy()
             var newStoreIndex = uiState.value.selectStoreIndex
             addMart?.let {
-                metadata.martList.indexOf(addMart).takeIf { it == -1 }?.let {
+                metadata.martList.indexOfFirst { it.martName == addMart }.takeIf { it == -1 }?.let {
                     newStoreIndex = metadata.martList.size
-                    metadata = metadata.copy(martList = metadata.martList + addMart)
+                    metadata = metadata.copy(
+                        martList = metadata.martList + listOf(
+                            SavedMartData(
+                                addMart,
+                                Random.nextInt(0, 9)
+                            )
+                        )
+                    )
                 }
             }
             addCategory?.let {
@@ -122,7 +132,7 @@ class PriceRegisterViewModel @Inject constructor(
                     registerMetadata = metadata
                 )
             }
-            saveStoreListUseCase(metadata)
+            saveSavedMetaDataListUseCase(metadata)
         }
     }
 
@@ -143,7 +153,7 @@ class PriceRegisterViewModel @Inject constructor(
                     id = -1L,
                     productName = inputState.productName,
                     category = inputState.category,
-                    martName = inputState.registerMetadata.martList[inputState.selectStoreIndex],
+                    martName = inputState.registerMetadata.martList[inputState.selectStoreIndex].martName,
                     originalPrice = inputState.regularPrice.takeIf { it != -1L },
                     currentPrice = inputState.purchasePrice,
                     memo = inputState.infoMemo,

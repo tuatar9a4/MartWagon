@@ -48,11 +48,12 @@ import com.devd.common.theme.ColorTertiaryText
 import com.devd.common.theme.ColorWhite
 import com.devd.common.util.LabelText
 import com.devd.common.util.RoundedCard
+import com.devd.domain.model.datastore.SavedMartData
 
 @Composable
 fun InputStoreInfo(
     selectStoreIndex: Int,
-    storeList: List<String>,
+    storeList: List<SavedMartData>,
     memo: String,
     onStoreSelected: (Int) -> Unit,
     onMemoUpdate: (String) -> Unit,
@@ -64,7 +65,7 @@ fun InputStoreInfo(
     RoundedCard {
         LabelText(labelIcon = R.drawable.icon_shop, label = stringResource(R.string.purchase_store))
 
-        FlowRow( // 가로로 배치하다 넘치면 아래로 내림
+        FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -74,7 +75,7 @@ fun InputStoreInfo(
                     onClick = { onStoreSelected(index) },
                     label = {
                         Text(
-                            text = store,
+                            text = store.martName,
                             style = MaterialTheme.typography.labelMedium.copy(
                                 fontWeight = FontWeight.Bold,
                             )

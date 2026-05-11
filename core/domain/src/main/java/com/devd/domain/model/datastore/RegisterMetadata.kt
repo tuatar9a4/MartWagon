@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RegisterMetadata(
-    val martList: List<String>,
+    val martList: List<SavedMartData>,
     val category: List<String>,
 )

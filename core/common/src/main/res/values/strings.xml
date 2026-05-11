@@ -2,7 +2,7 @@
 <resources>
     <string name="tab_record">Record</string>
     <string name="tab_report">Report</string>
-    <string name="tab_tag">Tag</string>
+    <string name="tab_tag">Mart/Tag</string>
     <string name="tab_setting">Setting</string>
     <string name="my_recorder">"내 장바구니 기록장"</string>
     <string name="item_text">"품목"</string>
@@ -69,4 +69,6 @@
     <string name="ask_cheapest_mart">"가장 저렴했던 마트는 어디일까?"</string>
     <string name="cheapest_count">"비교 우위 %s 건"</string>
     <string name="price_chart_title">"가격 추이 그래프"</string>
+    <string name="group_tab_title">"내 기록 모아보기"</string>
+    <string name="group_tab_description">"마트별, 태그별로 가격 기록을 분류해서 보세요."</string>
 </resources>
