@@ -2,6 +2,7 @@ package com.devd.domain.usecase.report
 
 import com.devd.domain.model.report.CategoryReport
 import com.devd.domain.repository.PriceRecordRepository
+import timber.log.Timber
 import javax.inject.Inject
 
 class GetMartComparisonUseCase @Inject constructor(
@@ -12,13 +13,12 @@ class GetMartComparisonUseCase @Inject constructor(
 
         val reportList = mutableListOf<CategoryReport>()
 
-        // 2. 각 카테고리별로 마트 비교 로직 실행
         for (category in categories) {
             val latestPrices = priceRecordRepository.getLatestPricesByCategory(category)
 
+            Timber.d("Category[$category]=> ${latestPrices}")
             if (latestPrices.size >= 2) {
-                // 단위 가격(100g/ml 등) 기준으로 정렬 로직이 들어갔다고 가정
-                val sorted = latestPrices.sortedBy { it.currentPrice } // 실제론 unitPrice로 비교
+                val sorted = latestPrices.sortedBy { it.currentPrice }
                 val cheapest = sorted.first()
                 val expensive = sorted.last()
 
@@ -26,15 +26,15 @@ class GetMartComparisonUseCase @Inject constructor(
                     CategoryReport(
                         categoryName = category,
                         cheapestMartName = cheapest.martName,
-                        cheapestPrice = cheapest.currentPrice, // 단위 가격 노출
+                        cheapestPrice = cheapest.currentPrice,
                         cheapestPriceForUnit = cheapest.pricePerUnit,
-                        savingAmount = expensive.currentPrice - cheapest.currentPrice // 절약 가능 금액
+                        savingAmount = expensive.currentPrice - cheapest.currentPrice
                     )
                 )
             }
         }
         val sortMartReport =
-            reportList.sortedByDescending { it.savingAmount } // 가격 차이가 큰(절약 효과가 큰) 순서대로 정렬!
+            reportList.sortedByDescending { it.savingAmount }
         val cheapestGroupPerMart = sortMartReport.groupBy { it.cheapestMartName }
             .toList()
             .sortedByDescending { it.second.size }

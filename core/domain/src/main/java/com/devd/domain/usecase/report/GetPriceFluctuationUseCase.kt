@@ -59,10 +59,9 @@ class GetPriceFluctuationUseCase @Inject constructor(
 
         // 3. 정렬하여 Top 5 추출
         val surges =
-            fluctuations.filter { it.discountRate > 0 }.sortedByDescending { it.discountRate }
-                .take(5)
+            fluctuations.filter { it.discountRate >= 0 }.sortedByDescending { it.discountRate }.take(5)
         val plunges =
-            fluctuations.filter { it.discountRate < 0 }.sortedBy { it.discountRate }.take(5)
+            fluctuations.filter { it.discountRate <= 0 }.sortedBy { it.discountRate }.take(5)
 
         return FluctuationReport(surges.first(), plunges.first())
     }
