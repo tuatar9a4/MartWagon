@@ -1,37 +1,50 @@
 package com.devd.report.screen
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.devd.common.R
-import com.devd.common.theme.ColorMainText
 import com.devd.common.theme.ColorSecondaryText
+import com.devd.common.theme.ColorWhite
 
 @Composable
-fun ReportTopBanner() {
-    Column() {
-        Text(
-            text = stringResource(R.string.price_report_title),
-            style = MaterialTheme.typography.titleLarge.copy(
-                fontWeight = FontWeight.Bold,
-                fontSize = 26.sp,
-                color = ColorMainText
-            )
+fun ReportTopBanner(
+    settingClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 5.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Image(
+            modifier = Modifier.height(25.dp),
+            painter = painterResource(R.drawable.img_report_banner),
+            contentDescription = null,
         )
-        Spacer(Modifier.height(10.dp))
-        Text(
-            text = stringResource(R.string.price_report_description),
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = ColorSecondaryText
-            )
+        Image(
+            modifier = Modifier
+                .clickable(onClick = settingClick)
+                .size(36.dp)
+                .background(ColorWhite, RoundedCornerShape(15.dp))
+                .padding(10.dp),
+            painter = painterResource(R.drawable.icon_setting),
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(ColorSecondaryText)
         )
     }
 }

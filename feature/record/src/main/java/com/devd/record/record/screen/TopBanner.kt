@@ -26,13 +26,13 @@ import com.devd.common.theme.ColorWhite
 @Composable
 fun TopBannerPreview() {
     TopBanner(
-        onClickSearch = {}
+        settingClick = {}
     )
 }
 
 @Composable
 fun TopBanner(
-    onClickSearch: () -> Unit
+    settingClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -43,14 +43,14 @@ fun TopBanner(
     ) {
         Image(
             modifier = Modifier.height(25.dp),
-            painter = painterResource(R.drawable.img_home_banner),
+            painter = painterResource(R.drawable.img_record_banner),
             contentDescription = null,
         )
         Image(
             modifier = Modifier
                 .background(ColorWhite, RoundedCornerShape(15.dp))
                 .clip(RoundedCornerShape(15.dp))
-                .clickable(onClick = onClickSearch)
+                .clickable(onClick = settingClick)
                 .size(36.dp)
                 .padding(10.dp),
             painter = painterResource(R.drawable.icon_setting),

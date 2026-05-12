@@ -204,7 +204,7 @@ class MainActivity : ComponentActivity() {
                             entry<RecordNavs> {
                                 RecordScreenRoute(
                                     modifier = paddingModifier,
-                                    onMoveSearchPage = {
+                                    moveSettingPage = {
                                         backStack.add(SettingNavs)
                                     }
                                 )
@@ -212,19 +212,25 @@ class MainActivity : ComponentActivity() {
                             entry<SearchNav> {
                                 SearchScreenRoute(
                                     modifier = paddingModifier,
-                                    onBackClick = {
-                                        if (backStack.size > 1) backStack.removeAt(backStack.size - 1)
-                                    }
+                                    moveSettingPage = {
+                                        backStack.add(SettingNavs)
+                                    },
                                 )
                             }
                             entry<ReportNavs> {
                                 ReportScreenRoute(
-                                    modifier = paddingModifier
+                                    modifier = paddingModifier,
+                                    onMoveSetting = {
+                                        backStack.add(SettingNavs)
+                                    }
                                 )
                             }
                             entry<GroupNavs> {
                                 GroupScreenRoute(
                                     modifier = paddingModifier,
+                                    onMoveSetting = {
+                                        backStack.add(SettingNavs)
+                                    },
                                     onMoveDetailPage = { detailType, itemName ->
                                         backStack.add(DetailNavs(detailType, itemName))
                                     }

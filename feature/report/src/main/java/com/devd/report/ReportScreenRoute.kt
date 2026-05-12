@@ -3,6 +3,7 @@ package com.devd.report
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -25,14 +26,21 @@ import com.devd.domain.model.report.ChartProductItem
 import com.devd.domain.model.report.FluctuationInfo
 import com.devd.domain.model.report.FluctuationReport
 import com.devd.report.screen.CheapestMartRank
+import com.devd.report.screen.DataAnalysing
 import com.devd.report.screen.PriceChart
 import com.devd.report.screen.PriceFluctuationInfo
 import com.devd.report.screen.ReportTopBanner
 
+sealed interface ReportAction {
+    data class OnChangeProductOfChart(val index: Int, val productName: String) : ReportAction
+    data object MoveSetting : ReportAction
+}
+
 @Composable
 fun ReportScreenRoute(
     modifier: Modifier = Modifier,
-    viewModel: ReportViewModel = hiltViewModel()
+    viewModel: ReportViewModel = hiltViewModel(),
+    onMoveSetting: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -44,7 +52,15 @@ fun ReportScreenRoute(
         modifier = modifier,
         uiState = uiState,
         productNameList = viewModel.getProductNameList(),
-        changeChartProduct = viewModel::changeChartProduct
+        onAction = {
+            when (it) {
+                is ReportAction.OnChangeProductOfChart -> {
+                    viewModel.changeChartProduct(it.index, it.productName)
+                }
+
+                ReportAction.MoveSetting -> onMoveSetting()
+            }
+        },
     )
     uiState.isLoading.ShowLoadingDialog { }
 }
@@ -54,7 +70,7 @@ fun ReportScreen(
     modifier: Modifier = Modifier,
     uiState: ReportUiState,
     productNameList: List<ChartProductItem>,
-    changeChartProduct: (Int, String) -> Unit
+    onAction: (ReportAction) -> Unit,
 ) {
     var isShowProductList: Boolean by remember { mutableStateOf(false) }
 
@@ -64,29 +80,38 @@ fun ReportScreen(
             .padding(horizontal = 20.dp)
             .verticalScroll(rememberScrollState())
     ) {
+        ReportTopBanner(
+            settingClick = { onAction(ReportAction.MoveSetting) }
+        )
         Spacer(Modifier.height(20.dp))
-        ReportTopBanner()
-        Spacer(Modifier.height(20.dp))
-        uiState.fluctuationInfo?.let {
-            PriceFluctuationInfo(
-                fluctuationReport = it
+        if (uiState.isContentEmpty()) {
+            DataAnalysing(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
             )
-        }
-        Spacer(Modifier.height(20.dp))
-        if (uiState.martComparisonList.size > 1) {
-            CheapestMartRank(
-                rankingList = uiState.martComparisonList
-            )
-        }
-        Spacer(Modifier.height(20.dp))
-        if (uiState.priceList.isNotEmpty()) {
-            PriceChart(
-                showProduct = uiState.priceList.first().productName,
-                priceList = uiState.priceList,
-                chartProductClick = {
-                    isShowProductList = true
-                }
-            )
+        } else {
+            uiState.fluctuationInfo?.let {
+                PriceFluctuationInfo(
+                    fluctuationReport = it
+                )
+            }
+            Spacer(Modifier.height(20.dp))
+            if (uiState.martComparisonList.size > 1) {
+                CheapestMartRank(
+                    rankingList = uiState.martComparisonList
+                )
+            }
+            Spacer(Modifier.height(20.dp))
+            if (uiState.priceList.size > 1) {
+                PriceChart(
+                    showProduct = uiState.priceList.first().productName,
+                    priceList = uiState.priceList,
+                    chartProductClick = {
+                        isShowProductList = true
+                    }
+                )
+            }
         }
         Spacer(Modifier.height(20.dp))
     }
@@ -99,7 +124,7 @@ fun ReportScreen(
                 isShowProductList = false
             },
             onItemClick = { index, item ->
-                changeChartProduct(index, item.text)
+                onAction(ReportAction.OnChangeProductOfChart(index, item.text))
                 isShowProductList = false
             }
         )
@@ -128,7 +153,7 @@ fun ReportScreenPreview() {
             )
         ),
         productNameList = emptyList(),
-        changeChartProduct = { _, _ -> }
+        onAction = {}
     )
 }
 

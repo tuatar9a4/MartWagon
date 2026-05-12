@@ -53,13 +53,14 @@ sealed interface SearchAction {
     data class OnDeleteSearchWord(val word: String) : SearchAction
     data object OnDeleteAllSearchWord : SearchAction
     data object OnClearSearchList : SearchAction
+    data object OnMoveSetting : SearchAction
 }
 
 @Composable
 fun SearchScreenRoute(
     modifier: Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
-    onBackClick: () -> Unit,
+    moveSettingPage: () -> Unit,
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
@@ -73,6 +74,7 @@ fun SearchScreenRoute(
                 is SearchAction.OnDeleteSearchWord -> viewModel.deleteWord(it.word)
                 is SearchAction.OnSearchWord -> viewModel.updateNewWord(it.word)
                 SearchAction.OnClearSearchList -> viewModel.clearSearchList()
+                SearchAction.OnMoveSetting -> moveSettingPage()
             }
         }
     )
@@ -109,7 +111,7 @@ fun SearchScreen(
             )
             Image(
                 modifier = Modifier
-                    .clickable(onClick = {})
+                    .clickable(onClick = {searchActionListener(SearchAction.OnMoveSetting)})
                     .size(36.dp)
                     .background(ColorWhite, RoundedCornerShape(15.dp))
                     .padding(10.dp),

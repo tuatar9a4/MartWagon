@@ -25,13 +25,15 @@ import timber.log.Timber
 sealed interface GroupScreenAction {
     data class ChangeGroup(val index: Int) : GroupScreenAction
     data class MoveToDetail(val itemName: String) : GroupScreenAction
+    data object MoveToSetting : GroupScreenAction
 }
 
 @Composable
 fun GroupScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: GroupViewModel = hiltViewModel(),
-    onMoveDetailPage: (GroupType, String) -> Unit
+    onMoveDetailPage: (GroupType, String) -> Unit,
+    onMoveSetting: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -48,9 +50,10 @@ fun GroupScreenRoute(
                         viewModel.changeGroup(action.index)
                     }
 
-                    is GroupScreenAction.MoveToDetail -> {
+                    is GroupScreenAction.MoveToDetail ->
                         onMoveDetailPage(uiState.selectGroupType, action.itemName)
-                    }
+
+                    GroupScreenAction.MoveToSetting -> onMoveSetting()
                 }
             }
         )
@@ -68,9 +71,13 @@ fun GroupScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(ColorBackground)
-            .padding(horizontal = 20.dp, vertical = 10.dp)
+            .padding(horizontal = 20.dp)
     ) {
-        GroupTopBanner()
+        GroupTopBanner(
+            clickSetting = {
+                onAction(GroupScreenAction.MoveToSetting)
+            }
+        )
         Spacer(Modifier.height(20.dp))
         GroupSelector(
             selectedIndex = uiState.selectGroupType,
@@ -83,13 +90,13 @@ fun GroupScreen(
             GroupType.MART -> MartGroupList(
                 groupList = uiState.martList,
                 itemsMap = uiState.martItems,
-                onItemClick = { onAction(GroupScreenAction.MoveToDetail(it))}
+                onItemClick = { onAction(GroupScreenAction.MoveToDetail(it)) }
             )
 
             GroupType.CATEGORY -> CategoryGroup(
                 categoryList = uiState.categoryList,
                 itemsMap = uiState.categoryItems,
-                onItemClick = { onAction(GroupScreenAction.MoveToDetail(it))}
+                onItemClick = { onAction(GroupScreenAction.MoveToDetail(it)) }
             )
         }
         Spacer(Modifier.height(20.dp))

@@ -23,7 +23,10 @@ data class ReportUiState(
     val fluctuationInfo: FluctuationReport? = null,
     val martComparisonList: List<Pair<String, List<CategoryReport>>> = emptyList(),
     val priceList: List<SimplePriceInfo> = emptyList(),
-)
+) {
+    fun isContentEmpty() =
+        fluctuationInfo == null || martComparisonList.size < 2 || priceList.size < 2
+}
 
 @HiltViewModel
 class ReportViewModel @Inject constructor(

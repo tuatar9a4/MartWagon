@@ -25,7 +25,7 @@ import com.devd.record.record.screen.RecordSummary
 import com.devd.record.record.screen.TopBanner
 
 sealed interface RecordAction {
-    data object OnSearchClick : RecordAction
+    data object OnSettingClick : RecordAction
     data class OnCompareClick(val selectItem: PriceRecord) : RecordAction
     data class OnDeleteClick(val deleteId: Long) : RecordAction
 }
@@ -34,7 +34,7 @@ sealed interface RecordAction {
 fun RecordScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
-    onMoveSearchPage: () -> Unit
+    moveSettingPage: () -> Unit
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -49,8 +49,8 @@ fun RecordScreenRoute(
             uiState = uiState,
             recordActionListener = {
                 when (it) {
-                    RecordAction.OnSearchClick -> {
-                        onMoveSearchPage()
+                    RecordAction.OnSettingClick -> {
+                        moveSettingPage()
                     }
 
                     is RecordAction.OnCompareClick -> {
@@ -87,8 +87,8 @@ fun RecordScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         TopBanner(
-            onClickSearch = {
-                recordActionListener(RecordAction.OnSearchClick)
+            settingClick = {
+                recordActionListener(RecordAction.OnSettingClick)
             }
         )
         Spacer(Modifier.height(20.dp))
