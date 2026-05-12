@@ -131,7 +131,7 @@ class MainActivity : ComponentActivity() {
                                     )
                                     BottonNaviItem(
                                         isSelect = currentRoute is RecordNavs,
-                                        icon = R.drawable.icon_home,
+                                        icon = R.drawable.icon_record,
                                         label = R.string.tab_record,
                                         onClick = {
                                             val index = backStack.indexOfFirst { it is RecordNavs }
