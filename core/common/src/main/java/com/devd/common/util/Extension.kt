@@ -1,5 +1,7 @@
 package com.devd.common.util
 
+import android.content.Context
+import android.content.pm.PackageManager
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -16,4 +18,20 @@ fun Long.getDaysAgo(): Long {
 
     // 3. 두 날짜 사이의 일수(Days) 차이 계산
     return ChronoUnit.DAYS.between(targetDate, today)
+}
+
+fun Context.getAppVersionName(): String {
+    return try {
+        // 현재 앱의 패키지명을 사용하여 정보를 조회합니다.
+        val packageInfo =
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(packageName, 0)
+            }
+        packageInfo.versionName ?: "Unknown"
+    } catch (e: Exception) {
+        "Unknown"
+    }
 }

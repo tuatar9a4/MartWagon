@@ -237,7 +237,7 @@ fun UnitSelector(
                         .size(width = 30.dp, height = 30.dp)
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
-                            indication = null // 클릭 리플 효과 제거 (인디케이터가 움직이므로)
+                            indication = null
                         ) { onUnitSelected(index) },
                     contentAlignment = Alignment.Center
                 ) {

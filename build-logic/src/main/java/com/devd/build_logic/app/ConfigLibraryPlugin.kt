@@ -11,6 +11,7 @@ fun Project.configLibraryPlugin() {
 
         defaultConfig {
             minSdk = 29
+
         }
         buildFeatures {
             buildConfig = true
