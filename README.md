@@ -3,7 +3,7 @@
 > **나만의 스마트한 장바구니 가격 비교 & 통계 다이어리**  
 > "내가 샀던 제품의 가격을 기록해두고, 추후 비슷한 제품을 구매할 때 최저가인지 한눈에 비교해 보세요!"
 
-[![PlayStore Badge](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME)
+[![PlayStore Badge](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=com.devd.martwagon)
 
 ## 📖 프로젝트 개요
 Mart Wagon은 일상적인 마트 장보기에서 발생하는 '가격 비교'의 번거로움을 해결하기 위해 기획된 안드로이드 애플리케이션입니다. 사용자는 제품의 가격을 기록하고, 통계 탭의 자체 비교 로직을 통해 가장 저렴한 마트와 물품을 직관적으로 확인할 수 있습니다. 
